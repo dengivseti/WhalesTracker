@@ -1,0 +1,60 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@date-io/date-fns": "^1.3.13",
+    "@material-ui/core": "^4.10.1",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.51",
+    "@material-ui/pickers": "^3.2.10",
+    "@material-ui/styles": "^4.9.10",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/mui-datatables": "^2.14.2",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-flag-icon-css": "^1.0.3",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/shortid": "0.0.29",
+    "array-move": "^2.2.1",
+    "clsx": "^1.1.0",
+    "date-fns": "^2.14.0",
+    "material-ui-chip-input": "^2.0.0-beta.2",
+    "mui-datatables": "^2.15.0",
+    "notistack": "^0.9.11",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-flag-icon-css": "^1.0.25",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "react-sortable-hoc": "^1.11.0",
+    "shortid": "^2.2.15",
+    "typescript": "~3.7.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "proxy": "http://localhost:5000",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
