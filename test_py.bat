@@ -1,1 +1,0 @@
-python C:\Users\User\Desktop\WORK\GET_IID\test_tracker.py
