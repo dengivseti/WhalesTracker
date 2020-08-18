@@ -1,9 +1,9 @@
 import React, {createContext, useCallback, useEffect, useReducer} from 'react'
 import {IStatisticState, IStats} from './types'
 import { statisticReducer } from './statisticReducer'
-import {useHttp} from "../hooks/http.hook";
-import {useMessage} from "../hooks/message.hook";
-import {StatisticType, typeInterval, IMenuStatsValues} from '../intrefaces/interface';
+import {useHttp} from "../hooks/http.hook"
+import {useMessage} from "../hooks/message.hook"
+import {StatisticType, IMenuStatsValues} from '../intrefaces/interface'
 
 const storageKey: string = 'Stats'
 const current = new Date()
@@ -18,12 +18,12 @@ const statState: IMenuStatsValues = {
     endDate: new Date(),
     interval: 'today',
     country: [],
+    groups: [],
+    streams: []
 }
 
 const initialStateDefault: IStatisticState = {
     ...statState,
-    groups: [],
-    streams: [],
     loading: true,
     stats: [],
     setType: noop,
@@ -38,8 +38,8 @@ const getInitialState = () => {
         const value = {
             ...statState,
             ...data,
-            // startDate: Date.parse(data.startDate),
-            // endDate: Date.parse(data.endDate)
+            startDate: new Date(data.startDate),
+            endDate: new Date(data.endDate)
         }
         return {...initialStateDefault, ...value}
     }
@@ -85,7 +85,6 @@ export const StatisticState: React.FC = ({children}) => {
     }
 
     const setType = (type: StatisticType) => {
-        console.log('DISPATCH TYPE')
         dispatch({
             type: 'SET_TYPE',
             t: type,
@@ -93,21 +92,21 @@ export const StatisticState: React.FC = ({children}) => {
     }
 
     const updateLocalStorage = (menuStats: IMenuStatsValues) => {
-        console.log('DISPATCH')
         const value: IMenuStatsValues = {
             type: menuStats.type,
             country: menuStats.country,
             ignoreBot: menuStats.ignoreBot,
             interval: menuStats.interval,
             startDate: menuStats.startDate,
-            endDate: menuStats.endDate
+            endDate: menuStats.endDate,
+            groups: menuStats.groups,
+            streams: menuStats.streams
         }
         dispatch({
             type: 'UPDATE_LOCAL_STORAGE',
             menu: value
         })
-        localStorage.setItem(storageKey, JSON.stringify({value}))
-        fetchStats()
+        localStorage.setItem(storageKey, JSON.stringify(value))
     }
 
     const clearStats = () => {
@@ -125,7 +124,6 @@ export const StatisticState: React.FC = ({children}) => {
     const statsError = () => {
         dispatch({type: 'ERROR'})
     }
-
 
     return (
         <StatisticContext.Provider value={{

@@ -411,6 +411,8 @@ export const intervalDate: {value : typeInterval, name: string}[] = [
     {value: 'last3Day', name: 'Last 3 days'},
     {value: 'last7Day', name: 'Last 7 days'},
     {value: 'last14Day', name: 'Last 14 days'},
+    {value: 'thisWeek', name: 'This week'},
+    {value: 'lastWeek', name: 'Last week'},
     {value: 'thisMounth', name: 'This mounth'},
     {value: 'lastMounth', name: 'Last mounth'},
 ]

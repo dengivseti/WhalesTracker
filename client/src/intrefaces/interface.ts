@@ -37,6 +37,8 @@ export type typeInterval =
     | 'last3Day'
     | 'last7Day'
     | 'last14Day'
+    | 'thisWeek'
+    | 'lastWeek'
     | 'thisMounth'
     | 'lastMounth'
 
@@ -46,7 +48,9 @@ export interface IMenuStatsValues {
     startDate: Date,
     endDate: Date,
     interval: typeInterval,
-    country: string[]
+    country: string[],
+    groups: string[]
+    streams: string[]
 }
 
 export interface IGroupDrawer {

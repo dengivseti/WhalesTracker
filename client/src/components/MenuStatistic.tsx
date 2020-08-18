@@ -1,15 +1,15 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {Button, FormControl, Grid, InputLabel, Select} from '@material-ui/core'
-import {StatisticContext} from "../context/StatisticState";
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-import {GroupContext} from "../context/GroupState";
-import {IStreamValues, typeInterval} from '../intrefaces/interface';
+import {StatisticContext} from "../context/StatisticState"
+import {createStyles, makeStyles, Theme} from "@material-ui/core/styles"
+import {GroupContext} from "../context/GroupState"
+import {IStreamValues, typeInterval} from '../intrefaces/interface'
 import DateFnsUtils from '@date-io/date-fns'
 import {
     KeyboardDatePicker, MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
-import { intervalDate } from '../utils/edit.utils';
-import {startOfMonth, subDays, subMonths, endOfMonth} from "date-fns";
+} from '@material-ui/pickers'
+import { intervalDate } from '../utils/edit.utils'
+import {startOfMonth, subDays, subMonths, endOfMonth, startOfWeek, subWeeks, endOfWeek} from "date-fns"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -34,14 +34,14 @@ export const MenuStatistic: React.FC = () => {
     const currentDate = new Date()
     const day = 24*60*60*1000
     const classes = useStyles()
+    const {groups} = useContext(GroupContext)
     const menu = useContext(StatisticContext)
-    const [groupId, setGroupId] = useState<string>(menu.groups.length ? menu.groups[0] : ' ')
+    const [groupId, setGroupId] = useState<string>(menu.groups.length ? menu.groups[0] : '')
     const [streams, setStreams] = useState<IStreamValues[]>([])
-    const [streamId, setStreamId] = useState<string>(menu.streams.length ? menu.streams[0] : ' ')
+    const [streamId, setStreamId] = useState<string>(menu.streams.length ? menu.streams[0] : '')
     const [dateStart, setDateStart] = useState<Date | null>(menu.startDate ? menu.startDate : new Date());
     const [dateEnd, setDateEnd] = useState<Date | null>(menu.endDate ? menu.endDate : new Date());
     const [interval, setInterval] = useState<typeInterval>(menu.interval ? menu.interval : 'today')
-    const {groups} = useContext(GroupContext)
 
     useEffect(() => {
         const currentDate = new Date()
@@ -66,6 +66,15 @@ export const MenuStatistic: React.FC = () => {
                 setDateStart(subDays(currentDate, 13))
                 setDateEnd(currentDate)
                 break
+            case 'thisWeek':
+                setDateStart(startOfWeek(currentDate, {weekStartsOn: 1}))
+                setDateEnd(currentDate)
+                break
+            case 'lastWeek':
+                const lastWeek = subWeeks(currentDate, 1)
+                setDateStart(startOfWeek(lastWeek, {weekStartsOn: 1}))
+                setDateEnd(endOfWeek(lastWeek, {weekStartsOn: 1}))
+                break
             case 'thisMounth':
                 setDateStart(startOfMonth(currentDate))
                 setDateEnd(currentDate)
@@ -85,7 +94,6 @@ export const MenuStatistic: React.FC = () => {
         if (dateEnd! > new Date()){
             setDateEnd(new Date())
         }
-        console.log('dateEnd', dateEnd)
     }, [dateEnd])
 
     useEffect(() => {
@@ -95,7 +103,7 @@ export const MenuStatistic: React.FC = () => {
     }, [dateStart])
 
     useEffect(() => {
-        if (groupId !== ' ') {
+        if (groupId !== '') {
             const group = groups.find(g => g._id === groupId)
             if (group) {
                 setStreams(group.streams!)
@@ -103,10 +111,45 @@ export const MenuStatistic: React.FC = () => {
         } else {
             setStreams([])
         }
-    }, [groupId])
+    }, [groupId, groups])
+
+    useEffect(() => {
+        menu.updateLocalStorage({
+            country: [],
+            ignoreBot: false,
+            startDate: dateStart as Date,
+            endDate: dateEnd as Date,
+            type: menu.type,
+            interval,
+            groups: [groupId],
+            streams: [streamId]
+        })
+    }, [groupId, streamId, dateStart, dateEnd, interval])
 
     const intervalHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
         setInterval(event.target.value as typeInterval)
+    }
+
+    const clickSaveHandler = () => {
+        console.log('CLICKED')
+        menu.fetchStats()
+    }
+
+    const selectGroupHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
+        if (event.target.value !== '') {
+            setGroupId(event.target.value as string)
+        }else {
+            setGroupId('' as string)
+        }
+        setStreamId('' as string)
+    }
+
+    const selectStreamHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
+        if (event.target.value !== '') {
+            setStreamId(event.target.value as string)
+        } else {
+            setStreamId('' as string)
+        }
     }
 
     return (
@@ -120,16 +163,16 @@ export const MenuStatistic: React.FC = () => {
             >
                 <Grid item className={classes.formControl}>
                     <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="group">Group</InputLabel>
+                        <InputLabel htmlFor="group" shrink={true}>Group</InputLabel>
                         <Select
                             native
                             value={groupId}
-                            onChange={(event: React.ChangeEvent<{ value: unknown }>) => setGroupId(event.target.value as string)}
+                            onChange={e => selectGroupHandler(e)}
                             inputProps={{
                                 name: 'group'
                             }}
                         >
-                            <option value={' '}>{'All'}</option>
+                            <option value={''}>{'All'}</option>
                             {groups.map(option => (
                                 <option key={option._id} value={option._id}>{option.label}</option>
                             ))}
@@ -139,16 +182,16 @@ export const MenuStatistic: React.FC = () => {
 
                 <Grid item className={classes.formControl}>
                     <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="streams">Stream</InputLabel>
+                        <InputLabel htmlFor="streams" shrink={true}>Stream</InputLabel>
                         <Select
                             native
                             value={streamId}
-                            onChange={(event: React.ChangeEvent<{ value: unknown }>) => setStreamId(event.target.value as string)}
+                            onChange={e => selectStreamHandler(e)}
                             inputProps={{
                                 name: 'streams'
                             }}
                         >
-                            <option value={' '}>{'All'}</option>
+                            <option value={''}>{'All'}</option>
                             {streams.map(option => (
                                 <option key={option._id} value={option._id}>{option.name}</option>
                             ))}
@@ -203,7 +246,7 @@ export const MenuStatistic: React.FC = () => {
                 </Grid>
                 <Grid item>
                     <Button className={classes.button}
-                        // onClick={clickSaveHandler}
+                            onClick={clickSaveHandler}
                             disabled={menu.loading}
                             variant="contained"
                             color="primary"
