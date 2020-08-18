@@ -1,12 +1,12 @@
-import React, {useContext, useEffect} from 'react';
-import {StatisticContext} from "../context/StatisticState";
-import {Grid, Typography, Container} from '@material-ui/core';
-import MUIDataTable from "mui-datatables";
+import React, {useContext} from 'react'
+import {StatisticContext} from "../context/StatisticState"
+import {Grid, Typography } from '@material-ui/core'
+import MUIDataTable from "mui-datatables"
 import FlagIconFactory from 'react-flag-icon-css'
-import SmartphoneIcon from '@material-ui/icons/Smartphone';
-import DesktopWindowsIcon from '@material-ui/icons/DesktopWindows';
-import DevicesOtherIcon from '@material-ui/icons/DevicesOther';
-import {createMuiTheme, createStyles, makeStyles, Theme, ThemeOptions, MuiThemeProvider} from "@material-ui/core/styles";
+import SmartphoneIcon from '@material-ui/icons/Smartphone'
+import DesktopWindowsIcon from '@material-ui/icons/DesktopWindows'
+import DevicesOtherIcon from '@material-ui/icons/DevicesOther'
+import {createMuiTheme, createStyles, makeStyles, Theme, ThemeOptions, MuiThemeProvider} from "@material-ui/core/styles"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -55,7 +55,6 @@ const Themes = createMuiTheme({
     overrides: overrides,
 } as ThemeOptions)
 
-
 export const TableStatistic: React.FC = () => {
     const classes = useStyles()
     const {stats, type, loading} = useContext(StatisticContext)
@@ -81,7 +80,6 @@ export const TableStatistic: React.FC = () => {
                         </Grid>
                     )
                 }
-
             case 'device':
                 switch (value) {
                     case 'desktop':

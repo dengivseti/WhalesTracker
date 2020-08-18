@@ -1,5 +1,5 @@
-import {IStatisticState, ActionStatistic} from "./types";
-import {act} from "react-dom/test-utils";
+import {IStatisticState, ActionStatistic} from "./types"
+import {act} from "react-dom/test-utils"
 
 
 export const statisticReducer = (state: IStatisticState, action: ActionStatistic) => {
@@ -15,7 +15,7 @@ export const statisticReducer = (state: IStatisticState, action: ActionStatistic
         case 'ERROR':
             return {...state, loading: false, stats: []}
         case 'UPDATE_LOCAL_STORAGE':
-            return {...state, stats: [], ...action.menu}
+            return {...state, ...action.menu}
         default :
             return state
     }

@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {Tab, Tabs} from '@material-ui/core'
-import {TabStatistic} from "../components/TabStatistic";
-import {StatisticContext} from '../context/StatisticState';
+import {TabStatistic} from "../components/TabStatistic"
+import {StatisticContext} from '../context/StatisticState'
 
 export const TAB: {[T: string]: number} = {
     day: 0,
@@ -14,17 +14,13 @@ function a11yProps(index: any) {
     return {
         id: `tab-${index}`,
         'aria-controls': `tabpanel-${index}`,
-    };
+    }
 }
 
 
 export const StatisticPage: React.FC = () => {
     const {setType, loading, type} = useContext(StatisticContext)
     const [value, setValue] = useState<number>(TAB[type])
-
-    useEffect(() => {
-        console.log('TYPE:', type)
-    }, [type])
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue)
@@ -51,5 +47,5 @@ export const StatisticPage: React.FC = () => {
             </Tabs>
             <TabStatistic/>
         </>
-    );
-};
+    )
+}

@@ -25,7 +25,7 @@ export interface IStatisticState {
     country: string[]
     ignoreBot: boolean
     stats: IStats[]
-    interval: typeInterval,
+    interval: typeInterval
     setType:(t: StatisticType) => void
     fetchStats: () => void
     startLoading: () => void
