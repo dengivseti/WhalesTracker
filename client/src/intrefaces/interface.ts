@@ -35,6 +35,12 @@ export type typeIntervalDashboard =
     | 'day'
     | 'week'
 
+export type typeChartLineDashboard =
+    | "hits"
+    | "uniques"
+    | "sales"
+    | "amount"
+
 export type typeInterval =
     | 'today'
     | 'yesterday'
@@ -47,22 +53,23 @@ export type typeInterval =
     | 'lastMounth'
 
 export interface IMenuStatsValues {
-    type: StatisticType,
-    ignoreBot: boolean,
-    startDate: Date,
-    endDate: Date,
-    interval: typeInterval,
-    country: string[],
+    type: StatisticType
+    ignoreBot: boolean
+    startDate: Date
+    endDate: Date
+    interval: typeInterval
+    country: string[]
     groups: string[]
     streams: string[]
 }
 
 export interface  IMenuDashboardValues {
     ignoreBot: boolean,
-    interval: typeIntervalDashboard,
-    country: string[],
+    interval: typeIntervalDashboard
+    country: string[]
     groups: string[]
     streams: string[]
+    typeLines: typeChartLineDashboard
 }
 
 export interface IGroupDrawer {

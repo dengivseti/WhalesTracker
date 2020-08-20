@@ -3,7 +3,7 @@ import {
     IGroupValues, IMenuDashboardValues,
     IMenuStatsValues,
     IStreamValues,
-    StatisticType,
+    StatisticType, typeChartLineDashboard,
     typeInterval, typeIntervalDashboard
 } from "../intrefaces/interface"
 
@@ -26,6 +26,7 @@ export interface IDashboardState {
     loading: boolean
     country: string[]
     ignoreBot: boolean
+    typeLines: typeChartLineDashboard
     stats: IStatsDashboard[]
     fetchDashboard: () => void
     updateValue: (menuDashboard: IMenuDashboardValues) => void

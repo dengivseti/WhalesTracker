@@ -1,4 +1,10 @@
-import {typeFilter, typeInterval, typeIntervalDashboard, typeRedirectValue} from "../intrefaces/interface"
+import {
+    typeChartLineDashboard,
+    typeFilter,
+    typeInterval,
+    typeIntervalDashboard,
+    typeRedirectValue
+} from "../intrefaces/interface"
 
 interface IValueObject {
     name: string,
@@ -420,4 +426,11 @@ export const intervalDate: {value : typeInterval, name: string}[] = [
 export const intervalDashboard: {value: typeIntervalDashboard, name: string}[] = [
     {value: "day", name: "Day"},
     {value: "week", name: "Week"}
+]
+
+export const linesChartDashboard: {value: typeChartLineDashboard, name: string}[] = [
+    {value: "hits", name: "Hits"},
+    {value: "uniques", name: "Uniques"},
+    {value: "amount", name: "Amount"},
+    {value: "sales", name: "Sales"}
 ]
