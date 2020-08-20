@@ -31,6 +31,10 @@ export type typeFilter = 'device'
 
 export type StatisticType = keyof typeof TAB
 
+export type typeIntervalDashboard =
+    | 'day'
+    | 'week'
+
 export type typeInterval =
     | 'today'
     | 'yesterday'
@@ -48,6 +52,14 @@ export interface IMenuStatsValues {
     startDate: Date,
     endDate: Date,
     interval: typeInterval,
+    country: string[],
+    groups: string[]
+    streams: string[]
+}
+
+export interface  IMenuDashboardValues {
+    ignoreBot: boolean,
+    interval: typeIntervalDashboard,
     country: string[],
     groups: string[]
     streams: string[]

@@ -21,6 +21,7 @@
     "bcryptjs": "^2.4.3",
     "config": "^3.3.1",
     "connect-mongodb-session": "^2.3.1",
+    "date-fns": "^2.15.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-useragent": "^1.0.13",

@@ -5,7 +5,8 @@ import {AuthContext} from "./context/AuthContext"
 import {Loader} from "./components/Loader"
 import {Layout} from "./components/Layout";
 import {GroupState} from "./context/GroupState";
-import { StatisticState } from './context/StatisticState'
+import {StatisticState} from './context/StatisticState'
+import {DashboardState} from "./context/DashboardState";
 
 
 const App: React.FC = () => {
@@ -30,9 +31,11 @@ const App: React.FC = () => {
         <AuthContext.Provider value={{userId, isAuthenticated, login, logout}}>
             <GroupState>
                 <StatisticState>
-                <Layout>
-                    {routes}
-                </Layout>
+                    <DashboardState>
+                        <Layout>
+                            {routes}
+                        </Layout>
+                    </DashboardState>
                 </StatisticState>
             </GroupState>
         </AuthContext.Provider>

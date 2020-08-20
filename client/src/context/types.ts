@@ -1,11 +1,41 @@
 import {
     IFilterValues,
-    IGroupValues,
+    IGroupValues, IMenuDashboardValues,
     IMenuStatsValues,
     IStreamValues,
     StatisticType,
-    typeInterval
+    typeInterval, typeIntervalDashboard
 } from "../intrefaces/interface"
+
+export interface IStatsDashboard {
+    value: string
+    hits: number
+    uniques: number
+    sales: number
+    amount: number
+    hits_last: number
+    uniques_last: number
+    sales_last: number
+    amount_last: number
+}
+
+export interface IDashboardState {
+    interval: typeIntervalDashboard
+    groups: string[]
+    streams: string[]
+    loading: boolean
+    country: string[]
+    ignoreBot: boolean
+    stats: IStatsDashboard[]
+    fetchDashboard: () => void
+    updateValue: (menuDashboard: IMenuDashboardValues) => void
+}
+
+export type ActionDashboard =
+    | {type: 'START_LOADING'}
+    | {type: 'ERROR'}
+    | {type: 'FETCH_DASHBOARD', stats: IStatsDashboard[]}
+    | {type: 'UPDATE', menu: IMenuDashboardValues}
 
 export interface IStats {
     hits: number

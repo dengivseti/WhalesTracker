@@ -1,14 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {Fab} from "@material-ui/core"
+import {Fab, Grid} from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add"
 import {useStyles} from "../styles"
 import {ModalGroup} from "../components/ModalGroup"
 import {GroupContext} from "../context/GroupState"
+import {Chart} from "../components/Chart"
+import {DashboardContext} from "../context/DashboardState"
+import {Loader} from "../components/Loader"
+import {MenuDashboard} from "../components/MenuDashboard";
 
 export const DashboardPage: React.FC = () => {
     const classes = useStyles()
     const {clearGroup} = useContext(GroupContext)
     const [openModal, setOpenModal] = useState<boolean>(false)
+    const {loading, fetchDashboard, interval} = useContext(DashboardContext)
 
     const closeModalHandler = () => {
         setOpenModal(false)
@@ -18,9 +23,18 @@ export const DashboardPage: React.FC = () => {
         clearGroup()
     }, [])
 
+    useEffect(() => {
+        fetchDashboard()
+    }, [interval])
+
     return (
         <div>
-            <h1>Dashboard page</h1>
+            <MenuDashboard/>
+            <Grid container direction='row' >
+                <Grid item xs={12}>
+                    {loading ? <Loader/> : <Chart/>}
+                </Grid>
+            </Grid>
             {openModal && <ModalGroup open={openModal} onClose={closeModalHandler}/>}
             <Fab
                 color="primary"
