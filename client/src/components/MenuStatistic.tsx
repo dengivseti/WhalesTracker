@@ -131,7 +131,6 @@ export const MenuStatistic: React.FC = () => {
     }
 
     const clickSaveHandler = () => {
-        console.log('CLICKED')
         menu.fetchStats()
     }
 

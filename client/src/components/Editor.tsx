@@ -4,7 +4,6 @@ import {Button, Divider, Grid, Paper} from "@material-ui/core";
 import {EditGroup} from "./EditGroup";
 import {EditStreams} from "./EditStreams";
 import { EditFilters } from './EditFilters';
-import {IGroupValues, IStreamValues} from "../intrefaces/interface";
 import {Loader} from "./Loader";
 import {GroupContext} from "../context/GroupState";
 

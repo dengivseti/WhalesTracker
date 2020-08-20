@@ -1,5 +1,4 @@
 import {IStatisticState, ActionStatistic} from "./types"
-import {act} from "react-dom/test-utils"
 
 
 export const statisticReducer = (state: IStatisticState, action: ActionStatistic) => {
