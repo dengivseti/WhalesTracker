@@ -7,7 +7,8 @@ import {GroupContext} from "../context/GroupState"
 import {Chart} from "../components/Chart"
 import {DashboardContext} from "../context/DashboardState"
 import {Loader} from "../components/Loader"
-import {MenuDashboard} from "../components/MenuDashboard";
+import {MenuDashboard} from "../components/MenuDashboard"
+import {CardDashboard} from "../components/CardDashboard"
 
 export const DashboardPage: React.FC = () => {
     const classes = useStyles()
@@ -29,6 +30,7 @@ export const DashboardPage: React.FC = () => {
 
     return (
         <div>
+            <CardDashboard/>
             <MenuDashboard/>
             <Grid container direction='row' >
                 <Grid item xs={12}>

@@ -26,6 +26,10 @@ export interface IDashboardState {
     loading: boolean
     country: string[]
     ignoreBot: boolean
+    hits: number
+    uniques: number
+    amount: number
+    sales: number
     typeLines: typeChartLineDashboard
     stats: IStatsDashboard[]
     fetchDashboard: () => void
@@ -35,7 +39,7 @@ export interface IDashboardState {
 export type ActionDashboard =
     | {type: 'START_LOADING'}
     | {type: 'ERROR'}
-    | {type: 'FETCH_DASHBOARD', stats: IStatsDashboard[]}
+    | {type: 'FETCH_DASHBOARD', stats: IStatsDashboard[], hits: number, uniques: number, sales: number, amount: number}
     | {type: 'UPDATE', menu: IMenuDashboardValues}
 
 export interface IStats {
