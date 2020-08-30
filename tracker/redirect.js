@@ -34,10 +34,7 @@ module.exports = async (typeRedirect, url, res, subid, query = '') => {
             </body>
             </html>
             `
-            // return res.status(200).send(html)
-
-
-
+            return res.status(200).send(html)
         case 'iframe':
             res.set('Content-Type', 'text/javascript')
             iframe = `
@@ -108,9 +105,18 @@ module.exports = async (typeRedirect, url, res, subid, query = '') => {
             `
             return res.status(200).send(iframe)
         case 'javascript':
-            res.set('Content-Type', 'text/javascript')
-            return res.status(200).send(url)
-        case 'meta_refresh':
+            res.set('Content-Type', 'text/html')
+            js = `
+            <!DOCTYPE html>
+            <head>
+            </head>
+            <body>
+            <script type="text/javascript">${url}</script>
+            </body>
+            </html>
+            `
+            return res.status(200).send(js)
+        case 'metaRefresh':
             res.set('Content-Type', 'text/html')
             meta = `
                 <!DOCTYPE html>
@@ -122,7 +128,7 @@ module.exports = async (typeRedirect, url, res, subid, query = '') => {
                 </html>
             `
             return res.status(200).send(meta)
-        case 'iframe_redirect':
+        case 'iframeRedirect':
             res.set('Content-Type', 'text/html')
             iframe = `
                 <!DOCTYPE html>
@@ -139,20 +145,16 @@ module.exports = async (typeRedirect, url, res, subid, query = '') => {
                 </html>
             `
             return res.status(200).send(iframe)
-        case 'iframe_selection':
+        case 'jsSelection':
             res.set('Content-Type', 'text/javascript')
-            iframe = `
-            <script type="text/javascript">
+            js = `
                 function process(){
-                top.location = "${url}";
+                window.location = "${url}";
                 }
                 window.onerror = process;
-                if(top.location.href != window.location.href){
                 process()
-                }
-            </script>
             `
-            return res.status(200).send(iframe)
+            return res.status(200).send(js)
         case 'remote':
             url = await getUrl(query)
             if (url){
