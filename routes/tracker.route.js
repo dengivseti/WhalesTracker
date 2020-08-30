@@ -39,7 +39,6 @@ router.get('/:id', async (req, res) => {
                 continue
             }
             const isUsed = await stream(user, streams[i])
-            // console.log('RESULT FILTER STREAM', isUsed)
             if (isUsed) {
                 if (group.useLog && streams[i].useLog) {
                     const statistic = new Statistic({
@@ -69,9 +68,9 @@ router.get('/:id', async (req, res) => {
         if (group.useLog) {
             const statistic = new Statistic({
                 group: group._id,
-                out: streams[i].code,
+                out: group.code,
                 keyword: user.query,
-                redirect: streams[i].typeRedirect,
+                redirect: group.typeRedirect,
                 device: user.device,
                 country: user.geo.country,
                 city: user.geo.city,
@@ -85,7 +84,6 @@ router.get('/:id', async (req, res) => {
             })
             statistic.save()
         }
-        console.log(user.useragent)
         await redirect(group.typeRedirect, group.code, res, subid, user.query)
 
     } catch (e) {

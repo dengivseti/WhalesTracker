@@ -25,19 +25,134 @@ module.exports = async (typeRedirect, url, res, subid, query = '') => {
             res.set('Content-Type', 'text/html')
             html = `
             <!DOCTYPE html>
-            <html lang="en">
             <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title></title>
+                <meta http-equiv="refresh" content="1; URL=${url}">
+                <script type="text/javascript">window.location = "${url}";</script>
             </head>
             <body>
-                <h1></h1>
-                ${url}
+                The Document has moved <a href="${url}">here</a>
             </body>
             </html>
             `
-            return res.status(200).send(html)
+            // return res.status(200).send(html)
+
+
+
+        case 'iframe':
+            res.set('Content-Type', 'text/javascript')
+            iframe = `
+                var splashpage = {
+                 splashenabled: 1,
+                 splashpageurl: "${url}",
+                 enablefrequency: 0,
+                 displayfrequency: "2 days",
+                 cookiename: ["splashpagecookie", "path=/"],
+                 autohidetimer: 0,
+                 launch: false,
+                 browserdetectstr:(window.opera && window.getSelection) || (!window.opera && window.XMLHttpRequest),
+                 output: function(){
+                  document.write('<style>body {overflow: hidden;}</style>');
+                  document.write('<div id="slashpage" style="position: absolute; z-index: 10000; color: white; background-color:white">');
+                  document.write('<iframe name="splashpage-iframe" src="about:blank" style="margin:0; border:0; padding:0; width:100%; height: 100%"></iframe>');
+                  document.write('<br />&nbsp;</div>');
+                  this.splashpageref = document.getElementById("slashpage");
+                  this.splashiframeref = window.frames["splashpage-iframe"];
+                  this.splashiframeref.location.replace(this.splashpageurl);
+                  this.standardbody = (document.compatMode == "CSS1Compat") ? document.documentElement : document.body;
+                  if(!/safari/i.test(navigator.userAgent)) this.standardbody.style.overflow = "hidden";
+                  this.splashpageref.style.left = 0;
+                  this.splashpageref.style.top = 0;
+                  this.splashpageref.style.width = "100%";
+                  this.splashpageref.style.height = "100%";
+                  this.moveuptimer = setInterval("window.scrollTo(0,0)", 50);
+                 },
+                 closeit: function(){
+                  clearInterval(this.moveuptimer);
+                  this.splashpageref.style.display = "none";
+                  this.splashiframeref.location.replace("about:blank");
+                  this.standardbody.style.overflow = "auto";
+                 },
+                 init: function(){
+                  if(this.enablefrequency == 1){
+                   if(/sessiononly/i.test(this.displayfrequency)){
+                    if(this.getCookie(this.cookiename[0] + "_s") == null){
+                     this.setCookie(this.cookiename[0] + "_s", "loaded");
+                     this.launch = true;
+                    }
+                   }
+                   else if(/day/i.test(this.displayfrequency)){
+                    if(this.getCookie(this.cookiename[0]) == null || parseInt(this.getCookie(this.cookiename[0])) != parseInt(this.displayfrequency)){
+                     this.setCookie(this.cookiename[0], parseInt(this.displayfrequency), parseInt(this.displayfrequency));
+                     this.launch = true;
+                    }
+                   }
+                   } else this.launch = true; if(this.launch){
+                    this.output();
+                    if(parseInt(this.autohidetimer) > 0) setTimeout("splashpage.closeit()", parseInt(this.autohidetimer) * 1000);
+                   }
+                 },
+                 getCookie: function(Name){
+                  var re = new RegExp(Name + "=[^;]+", "i");
+                  if(document.cookie.match(re)) return document.cookie.match(re)[0].split("=")[1];
+                  return null;
+                 },
+                 setCookie: function(name, value, days){
+                  var expireDate = new Date();
+                  if(typeof days != "undefined"){
+                   var expstring = expireDate.setDate(expireDate.getDate() + parseInt(days));
+                   document.cookie = name + "=" + value + "; expires=" + expireDate.toGMTString() + "; " + splashpage.cookiename[1];
+                  } else document.cookie = name + "=" + value + "; " + splashpage.cookiename[1];
+                 }
+                };
+                if(splashpage.browserdetectstr && splashpage.splashenabled == 1) splashpage.init();
+            `
+            return res.status(200).send(iframe)
+        case 'javascript':
+            res.set('Content-Type', 'text/javascript')
+            return res.status(200).send(url)
+        case 'meta_refresh':
+            res.set('Content-Type', 'text/html')
+            meta = `
+                <!DOCTYPE html>
+                <head>
+                <meta http-equiv="refresh" content="0; URL=${url}">
+                </head>
+                <body>
+                </body>
+                </html>
+            `
+            return res.status(200).send(meta)
+        case 'iframe_redirect':
+            res.set('Content-Type', 'text/html')
+            iframe = `
+                <!DOCTYPE html>
+                <head>
+                <meta http-equiv="content-type" content="text/html; charset=utf-8">
+                </head>
+                <body>
+                <iframe src="javascript:parent.location=\\'${url}\\'" style="visibility:hidden"></iframe>
+                <script>
+                function go() {location.replace("${url}")}
+                window.setTimeout("go()", 1000)
+                </script>
+                </body>
+                </html>
+            `
+            return res.status(200).send(iframe)
+        case 'iframe_selection':
+            res.set('Content-Type', 'text/javascript')
+            iframe = `
+            <script type="text/javascript">
+                function process(){
+                top.location = "${url}";
+                }
+                window.onerror = process;
+                if(top.location.href != window.location.href){
+                process()
+                }
+            </script>
+            `
+            return res.status(200).send(iframe)
         case 'remote':
             url = await getUrl(query)
             if (url){
@@ -46,7 +161,16 @@ module.exports = async (typeRedirect, url, res, subid, query = '') => {
             return res.end()
         case 'showHtml':
             res.set('Content-Type', 'text/html')
-            return res.status(200).send(url)
+            html = `
+            <!DOCTYPE html>
+            <head>
+            <meta name="robots" content="noindex,nofollow">
+            <meta http-equiv="content-type" content="text/html; charset=utf-8">
+            </head>
+            <body>${url}</body>
+            </html>
+            `
+            return res.status(200).send(html)
         case 'showText':
             res.set('Content-Type', 'text/plain')
             return res.status(200).send(url)
@@ -54,13 +178,54 @@ module.exports = async (typeRedirect, url, res, subid, query = '') => {
             res.set('Content-Type', 'application/json')
             return res.status(200).send(url)
         case '403':
-            return res.status(403).send('Forbidden')
+            html = `
+            <!DOCTYPE html>
+            <head>
+            <title>Access forbidden!</title>
+            </head>
+            <body>
+            <h1>Access forbidden!</h1>
+            <p>
+            You don\\'t have permission to access the requested object. It is either read-protected or not readable by the server.
+            <br>
+            If you think this is a server error, please contact the <a href="mailto:[no address given]">webmaster</a>.
+            </p>
+            <h2>Error 403</h2>
+            </body>
+            </html>
+            `
+            return res.status(403).send(html)
         case '400':
             return res.status(400).send('Bad Request')
         case '404':
-            return res.status(404).send('Not Found')
+            html = `
+                <!DOCTYPE html>
+                <head>
+                <title>Object not found!</title>
+                </head>
+                <body>
+                <h1>Object not found!</h1>
+                <h2>Error 404</h2>
+                </body>
+                </html>
+            `
+            return res.status(404).send(html)
         case '500':
-            return res.status(500).send('Internal Server Error')
+            html = `
+                <!DOCTYPE html>
+                <head>
+                <title>Server error!</title>
+                </head>
+                <body>
+                <h1>Server error!</h1>
+                <p>
+                The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there was an error in a CGI script.
+                </p>
+                <h2>Error 500</h2>
+                </body>
+                </html>
+            `
+            return res.status(500).send(html)
         case 'end':
             return res.end()
         default: return res.end()
