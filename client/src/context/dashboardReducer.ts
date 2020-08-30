@@ -12,7 +12,7 @@ export const dashboardReducer = (state: IDashboardState, action: ActionDashboard
                 stats: action.stats,
                 hits: action.hits,
                 uniques: action.uniques,
-                ales: action.sales,
+                sales: action.sales,
                 amount: action.amount,
                 loading: false}
         case "UPDATE":

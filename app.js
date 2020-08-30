@@ -18,6 +18,7 @@ const store = new MongoStore({
 })
 
 app.use(useragent.express())
+app.use('/postback', require('./routes/postback.route'))
 app.use('/', require('./routes/tracker.route'))
 app.use(express.json({extended: true}))
 app.use(session({
@@ -51,6 +52,7 @@ async function start() {
         global.blackSignatures = await readFiles(path.join(__dirname, 'dist', 'blackSignatures.txt'))
         global.listUrl = await readFiles(path.join(__dirname, 'dist', 'listUrl.txt'))
         global.clearDayStatistic = config.get('clearDayStatistic') || 30
+        global.postbackKey = 'postbacktest'
         app.listen(PORT, () => console.log(`Server started on port ${PORT}...`))
     } catch (e) {
         console.log('Server error', e.message)
