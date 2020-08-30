@@ -4,7 +4,7 @@ import {makeStyles, Theme} from "@material-ui/core/styles"
 
 interface ICard {
     title: string
-    value: number
+    value: number | string
 }
 
 const useStyle = makeStyles((theme: Theme) => ({

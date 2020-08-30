@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import {CardInfo} from "./CardInfo"
 import {Grid} from "@material-ui/core"
 import {makeStyles, Theme} from "@material-ui/core/styles"
@@ -10,9 +10,18 @@ const useStyle = makeStyles((theme: Theme) => ({
     },
 }))
 
+const toCurrency = (price: number) => {
+    const money =  new Intl.NumberFormat('en-US', {
+        currency: 'usd',
+        style: 'currency'
+    }).format(price)
+    return money.toString()
+}
+
 export const CardDashboard = () => {
     const classes = useStyle()
     const {amount, sales, uniques, hits, loading} = useContext(DashboardContext)
+
     return (
         <Grid
             container
@@ -29,7 +38,7 @@ export const CardDashboard = () => {
                 <CardInfo title='Uniques' value={loading ? 0 : uniques} />
             </Grid>
             <Grid item xs={6} sm={3}>
-                <CardInfo title='Amount' value={loading ? 0 : amount}/>
+                <CardInfo title='Amount' value={loading ? 0 : toCurrency(+amount)}/>
             </Grid>
             <Grid item xs={6} sm={3}>
                 <CardInfo title='Sales' value={loading ? 0 : sales}/>
