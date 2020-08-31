@@ -32,10 +32,10 @@ export const CardDashboard = () => {
                 <CardInfo title='Uniques' value={loading ? 0 : uniques} />
             </Grid>
             <Grid item xs={6} sm={3}>
-                <CardInfo title='Amount' value={loading ? 0 : toCurrency(+amount)}/>
+                <CardInfo title='Sales' value={loading ? 0 : sales}/>
             </Grid>
             <Grid item xs={6} sm={3}>
-                <CardInfo title='Sales' value={loading ? 0 : sales}/>
+                <CardInfo title='Amount' value={loading ? 0 : toCurrency(+amount)}/>
             </Grid>
         </Grid>
     )
