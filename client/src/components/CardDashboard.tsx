@@ -3,6 +3,7 @@ import {CardInfo} from "./CardInfo"
 import {Grid} from "@material-ui/core"
 import {makeStyles, Theme} from "@material-ui/core/styles"
 import {DashboardContext} from "../context/DashboardState"
+import {toCurrency} from "../utils/money.utils"
 
 const useStyle = makeStyles((theme: Theme) => ({
     cards: {
@@ -10,13 +11,6 @@ const useStyle = makeStyles((theme: Theme) => ({
     },
 }))
 
-const toCurrency = (price: number) => {
-    const money =  new Intl.NumberFormat('en-US', {
-        currency: 'usd',
-        style: 'currency'
-    }).format(price)
-    return money.toString()
-}
 
 export const CardDashboard = () => {
     const classes = useStyle()

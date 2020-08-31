@@ -7,6 +7,7 @@ import SmartphoneIcon from '@material-ui/icons/Smartphone'
 import DesktopWindowsIcon from '@material-ui/icons/DesktopWindows'
 import DevicesOtherIcon from '@material-ui/icons/DevicesOther'
 import {createMuiTheme, createStyles, makeStyles, Theme, ThemeOptions, MuiThemeProvider} from "@material-ui/core/styles"
+import { toCurrency } from '../utils/money.utils'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -148,7 +149,7 @@ export const TableStatistic: React.FC = () => {
             s.uniques,
             epm,
             s.sales,
-            s.amount
+            toCurrency(s.amount)
         ])
     })
 
