@@ -1,5 +1,5 @@
 import React, {createContext, useEffect, useReducer} from 'react'
-import {IDashboardState, IStatsDashboard} from "./types"
+import {IDashboardState, ILastAmount, ILastClick, IStatsDashboard} from "./types"
 import {dashboardReducer} from "./dashboardReducer"
 import {useHttp} from "../hooks/http.hook"
 import {useMessage} from "../hooks/message.hook"
@@ -16,6 +16,8 @@ const initialState: IDashboardState = {
     ignoreBot: false,
     loading: false,
     stats: [],
+    lastAmount: [],
+    lastClick: [],
     typeLines: 'hits',
     amount: 0,
     hits: 0,
@@ -70,6 +72,8 @@ export const DashboardState: React.FC = ({children}) => {
         startLoading()
         try {
             const stats: IStatsDashboard[] = []
+            let lastClick: ILastClick[] = []
+            let lastAmount: ILastAmount[] = []
             const query = {
                 type: state.interval,
                 groups: state.groups.join('|'),
@@ -82,6 +86,12 @@ export const DashboardState: React.FC = ({children}) => {
             let uniques = 0
             let sales = 0
             let amount = 0
+            if (data && data.last_click) {
+                lastClick = [...data.last_click]
+            }
+            if (data && data.last_amount) {
+                lastAmount = [...data.last_amount]
+            }
             if (data && data.stats) {
                 data.stats.forEach((stat: IStatsDashboard) => {
                     hits += stat.hits
@@ -93,7 +103,7 @@ export const DashboardState: React.FC = ({children}) => {
                 })
                 dispatch({
                     type: 'FETCH_DASHBOARD',
-                    stats, hits, uniques, sales, amount
+                    stats, hits, uniques, sales, amount, lastClick, lastAmount
                 })
             }
         }catch (e) {
@@ -128,6 +138,8 @@ export const DashboardState: React.FC = ({children}) => {
     return (
         <DashboardContext.Provider value={{
             stats: state.stats,
+            lastAmount: state.lastAmount,
+            lastClick: state.lastClick,
             loading: state.loading,
             ignoreBot: state.ignoreBot,
             country: state.country,

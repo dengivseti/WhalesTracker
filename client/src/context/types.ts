@@ -19,6 +19,32 @@ export interface IStatsDashboard {
     amount_last: number
 }
 
+export interface ILastClick {
+    date: string
+    group: string
+    stream: string
+    device: string
+    country: string
+    city: string
+    ip: string
+    useragent: string
+    unique: boolean
+    isBot: boolean
+    out: string
+}
+
+export interface ILastAmount {
+    date: string
+    group: string
+    stream: string
+    device: string
+    country: string
+    city: string
+    ip: string
+    useragent: string
+    amount: string
+}
+
 export interface IDashboardState {
     interval: typeIntervalDashboard
     groups: string[]
@@ -32,6 +58,8 @@ export interface IDashboardState {
     sales: number
     typeLines: typeChartLineDashboard
     stats: IStatsDashboard[]
+    lastClick: ILastClick[]
+    lastAmount: ILastAmount[]
     fetchDashboard: () => void
     updateValue: (menuDashboard: IMenuDashboardValues) => void
 }
@@ -39,7 +67,15 @@ export interface IDashboardState {
 export type ActionDashboard =
     | {type: 'START_LOADING'}
     | {type: 'ERROR'}
-    | {type: 'FETCH_DASHBOARD', stats: IStatsDashboard[], hits: number, uniques: number, sales: number, amount: number}
+    | {type: 'FETCH_DASHBOARD',
+        stats: IStatsDashboard[],
+        hits: number,
+        uniques: number,
+        sales: number,
+        amount: number,
+        lastClick: ILastClick[],
+        lastAmount: ILastAmount[],
+        }
     | {type: 'UPDATE', menu: IMenuDashboardValues}
 
 export interface IStats {

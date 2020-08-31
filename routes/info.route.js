@@ -72,8 +72,38 @@ router.get('/stats/dashboard', auth, async (req, res) => {
             })
         }
         obj['date'] = {"$gte": new Date(startDateOld.getTime()), "$lt": new Date(endDate.getTime())}
-        const items = await Statistic.find(obj, 'date group stream keyword device country unique isBot amount').lean()
+        const items = await Statistic.find(obj, 'date group stream keyword device country city unique isBot amount useragent ip out').populate({path: 'stream', select: 'name'}).populate({path: 'group', select: 'name'}).lean()
         console.log(`Mongo ${(new Date().getTime() - time.getTime())/1000}`)
+        const sortedList = items.sort((a, b) => (a['date']) > (b['date']) ? -1: 1)
+        const filterAmount = sortedList.filter((item) => item['amount'] > 0).splice(0, 150)
+        const lastClick = sortedList.splice(0, 150).map(item => {
+            return {
+                date: DateFnsUtils.format(item.date, 'dd/MM/yyyy, hh:mm:ss'),
+                group: item.group ? item.group.name : '',
+                stream: item.stream ? item.stream.name : '',
+                device: item.device,
+                country: item.country,
+                city: item.city,
+                ip: item.ip,
+                useragent: item.useragent.substr(0, 68),
+                unique: item.unique,
+                isBot: item.isBot,
+                out: item.out.substr(0, 50)
+            }
+        })
+        const lastAmout = filterAmount.map(item => {
+            return {
+                date: DateFnsUtils.format(item.date, 'dd/MM/yyyy, hh:mm:ss'),
+                group: item.group ? item.group.name : '',
+                stream: item.stream ? item.stream.name : '',
+                device: item.device,
+                country: item.country,
+                city: item.city,
+                ip: item.ip,
+                amount: item.amount,
+                useragent: item.useragent.substr(0, 68),
+            }
+        })
         interval.forEach(i => {
             let value
             if (type === 'day'){
@@ -129,7 +159,7 @@ router.get('/stats/dashboard', auth, async (req, res) => {
             stats.push(rezObj[prop])
         }
         console.log(`Final ${(new Date().getTime() - time.getTime())/1000}`)
-        res.json({stats})
+        res.json({stats, last_click: lastClick, last_amount: lastAmout})
     }catch (e) {
         res.status(500).json({message: 'Something went wrong'})
     }

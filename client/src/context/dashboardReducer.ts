@@ -10,6 +10,8 @@ export const dashboardReducer = (state: IDashboardState, action: ActionDashboard
         case "FETCH_DASHBOARD":
             return {...state,
                 stats: action.stats,
+                lastClick: action.lastClick,
+                lastAmount: action.lastAmount,
                 hits: action.hits,
                 uniques: action.uniques,
                 sales: action.sales,

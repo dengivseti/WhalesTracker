@@ -9,6 +9,8 @@ import {DashboardContext} from "../context/DashboardState"
 import {Loader} from "../components/Loader"
 import {MenuDashboard} from "../components/MenuDashboard"
 import {CardDashboard} from "../components/CardDashboard"
+import {TableLastClick} from "../components/TableLastClick";
+import {TableLastAmount} from "../components/TableLastAmount";
 
 export const DashboardPage: React.FC = () => {
     const classes = useStyles()
@@ -37,13 +39,14 @@ export const DashboardPage: React.FC = () => {
                     {loading ? <Loader/> : <Chart/>}
                 </Grid>
             </Grid>
+            <TableLastAmount />
+            <TableLastClick />
             {openModal && <ModalGroup open={openModal} onClose={closeModalHandler}/>}
             <Fab
                 color="primary"
                 onClick={() => setOpenModal(true)}
                 className={classes.fab}
             >
-
                 <AddIcon/>
             </Fab>
         </div>

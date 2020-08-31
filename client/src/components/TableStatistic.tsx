@@ -84,9 +84,9 @@ export const TableStatistic: React.FC = () => {
             case 'device':
                 switch (value) {
                     case 'desktop':
-                        return <SmartphoneIcon/>
-                    case 'mobile':
                         return <DesktopWindowsIcon/>
+                    case 'mobile':
+                        return <SmartphoneIcon/>
                     case 'other':
                         return <DevicesOtherIcon/>
                     default:
