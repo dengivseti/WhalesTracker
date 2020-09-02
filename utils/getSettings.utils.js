@@ -27,11 +27,12 @@ module.exports = getSettings = async () => {
             global[key] = settings[key]
         }else{
             global[key] = config.get(key) || objSetting[key]
-            new Setting({
-                key,
-                value: global[key]
-            }).save()
-
+            if (global[key]) {
+                new Setting({
+                    key,
+                    value: global[key]
+                }).save()
+            }
         }
     })
 }
