@@ -30,7 +30,6 @@ router.get('/:id', async (req, res) => {
         let unique = true
         if (group.checkUnic && group.timeUnic > 0) {
             const candidate = await Statistic.findOne({ip: user.ip, date: {$gte: new Date(new Date().setDate(new Date().getHours()-group.timeUnic))}})
-            console.log(candidate)
             if (candidate) {
                 unique = false
             }
