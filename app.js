@@ -8,6 +8,7 @@ const session = require('express-session')
 const MongoStore = require('connect-mongodb-session')(session)
 const errorHandler = require('./middleware/error.middleware')
 const readFiles = require('./utils/readFiles.utils')
+const getSettings = require('./utils/getSettings.utils')
 
 
 const app = express()
@@ -51,8 +52,7 @@ async function start() {
         global.blackIps = await readFiles(path.join(__dirname, 'dist', 'blackIps.txt'))
         global.blackSignatures = await readFiles(path.join(__dirname, 'dist', 'blackSignatures.txt'))
         global.listUrl = await readFiles(path.join(__dirname, 'dist', 'listUrl.txt'))
-        global.clearDayStatistic = config.get('clearDayStatistic') || 30
-        global.postbackKey = 'postbacktest'
+        getSettings()
         app.listen(PORT, () => console.log(`Server started on port ${PORT}...`))
     } catch (e) {
         console.log('Server error', e.message)
