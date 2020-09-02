@@ -28,9 +28,12 @@ router.get('/:id', async (req, res) => {
         }
         const user = userInfo(req)
         let unique = true
-        const candidate = await Statistic.findOne({ip: user.ip})
-        if (candidate) {
-            unique = false
+        if (group.checkUnic && group.timeUnic > 0) {
+            const candidate = await Statistic.findOne({ip: user.ip, date: {$gte: new Date(new Date().setDate(new Date().getHours()-group.timeUnic))}})
+            console.log(candidate)
+            if (candidate) {
+                unique = false
+            }
         }
         const streams = group.streams.sort((a, b) => a['position'] > b['position'] ? 1: -1)
         const subid = shortid.generate().toLowerCase()
