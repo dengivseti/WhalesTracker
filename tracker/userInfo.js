@@ -26,7 +26,6 @@ module.exports = userInfo = req => {
             city: ''
         }
     }
-
     return {
         ip, isIpv6, geo,
         useragent,
@@ -34,6 +33,6 @@ module.exports = userInfo = req => {
         lang: lang[0],
         refer,
         params: req.params.id,
-        query: req.query.q || ''
+        query: req.query[global.getKey] || ''
     }
 }

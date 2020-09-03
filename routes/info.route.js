@@ -75,8 +75,8 @@ router.get('/stats/dashboard', auth, async (req, res) => {
         const items = await Statistic.find(obj, 'date group stream keyword device country city unique isBot amount useragent ip out').populate({path: 'stream', select: 'name'}).populate({path: 'group', select: 'name'}).lean()
         console.log(`Mongo ${(new Date().getTime() - time.getTime())/1000}`)
         const sortedList = items.sort((a, b) => (a['date']) > (b['date']) ? -1: 1)
-        const filterAmount = sortedList.filter((item) => item['amount'] > 0).splice(0, 150)
-        const lastClick = sortedList.splice(0, 150).map(item => {
+        const filterAmount = sortedList.filter((item) => item['amount'] > 0).slice(0, global.logLimitAmount)
+        const lastClick = sortedList.slice(0, global.logLimitClick).map(item => {
             return {
                 date: DateFnsUtils.format(item.date, 'dd/MM/yyyy, hh:mm:ss'),
                 group: item.group ? item.group.name : '',
