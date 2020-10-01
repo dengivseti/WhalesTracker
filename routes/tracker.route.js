@@ -5,6 +5,7 @@ const userInfo = require('../tracker/userInfo')
 const stream = require('../tracker/stream')
 const redirect = require('../tracker/redirect')
 const shortid = require('shortid')
+const DateFnsUtils = require('date-fns')
 
 
 const router = Router()
@@ -19,6 +20,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
+        const time = new Date()
         const group = await Group.findOne({name: req.params.id}).populate('streams')
         if (!group){
             return res.status(404).json(req.params.id)
@@ -29,7 +31,7 @@ router.get('/:id', async (req, res) => {
         const user = userInfo(req)
         let unique = true
         if (group.checkUnic && group.timeUnic > 0) {
-            const candidate = await Statistic.findOne({ip: user.ip, date: {$gte: new Date(new Date().setDate(new Date().getHours()-group.timeUnic))}})
+            const candidate = await Statistic.findOne({ip: user.ip, date: {$gte: DateFnsUtils.subHours(time, group.timeUnic)}})
             if (candidate) {
                 unique = false
             }
@@ -58,7 +60,7 @@ router.get('/:id', async (req, res) => {
                         ip: user.ip,
                         referer: user.refer,
                         useragent: user.useragent.source,
-                        expireAt: new Date(new Date().setDate(new Date().getDate() + global.clearDayStatistic)),
+                        expireAt: DateFnsUtils.addDays(time, global.clearDayStatistic),
                         subid
                     })
                     statistic.save()
@@ -81,7 +83,7 @@ router.get('/:id', async (req, res) => {
                 ip: user.ip,
                 referer: user.refer,
                 useragent: user.useragent.source,
-                expireAt: new Date(new Date().setDate(new Date().getDate() + global.clearDayStatistic)),
+                expireAt: DateFnsUtils.addDays(time, global.clearDayStatistic),
                 subid
             })
             statistic.save()
