@@ -7,6 +7,7 @@ import {Layout} from "./components/Layout";
 import {GroupState} from "./context/GroupState";
 import {StatisticState} from './context/StatisticState'
 import {DashboardState} from "./context/DashboardState";
+import {SettingsState} from "./context/SettingsState";
 
 
 const App: React.FC = () => {
@@ -32,9 +33,11 @@ const App: React.FC = () => {
             <GroupState>
                 <StatisticState>
                     <DashboardState>
-                        <Layout>
-                            {routes}
-                        </Layout>
+                        <SettingsState>
+                            <Layout>
+                                {routes}
+                            </Layout>
+                        </SettingsState>
                     </DashboardState>
                 </StatisticState>
             </GroupState>

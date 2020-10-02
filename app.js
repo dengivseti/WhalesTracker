@@ -1,6 +1,5 @@
 const express = require('express')
 const path = require('path')
-const fs = require('fs')
 const mongoose = require('mongoose')
 const config = require('config')
 const useragent = require('express-useragent')
@@ -34,6 +33,7 @@ app.use(session({
 
 
 app.use('/api/edit', require('./routes/create.route'))
+app.use('/api/settings', require('./routes/settings.route'))
 app.use('/api/auth', require('./routes/auth.route'))
 app.use('/api/info', require('./routes/info.route'))
 

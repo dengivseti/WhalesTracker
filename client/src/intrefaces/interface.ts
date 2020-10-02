@@ -17,6 +17,8 @@ export type typeRedirectValue = 'httpRedirect'
     | '500'
     | 'end'
 
+export type typeTrash = 'url' | 'notFound'
+
 export type typeFilter = 'device'
     | 'countries'
     | 'botIpv6'

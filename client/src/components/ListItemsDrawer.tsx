@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DashboardIcon from '@material-ui/icons/Dashboard';
+import Speed from '@material-ui/icons/Speed';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
@@ -12,7 +12,7 @@ export const mainListItems = (
     <div>
         <ListItem button component={Link} to="/dashboard">
             <ListItemIcon>
-                <DashboardIcon/>
+                <Speed/>
             </ListItemIcon>
             <ListItemText primary="Dashboard"/>
         </ListItem>

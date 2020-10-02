@@ -3,12 +3,17 @@ import {
     typeFilter,
     typeInterval,
     typeIntervalDashboard,
-    typeRedirectValue
+    typeRedirectValue, typeTrash
 } from "../intrefaces/interface"
 
 interface IValueObject {
     name: string,
     value: string
+}
+
+interface IValueTrashSetting {
+    name: string,
+    value: typeTrash
 }
 
 interface IValueFilter {
@@ -24,6 +29,11 @@ export interface IValueTypeRedirect {
     description: string
     disabled: boolean
 }
+
+export const listTrashOption: IValueTrashSetting[] = [
+    {value: 'url', name: 'Redirect on URL'},
+    {value: 'notFound', name: '404 not found'}
+]
 
 export const listTypeRedirect: IValueTypeRedirect[] = [
     {value: 'httpRedirect', name: 'HTTP Redirect', description: 'Input URL', disabled: true},

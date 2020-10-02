@@ -4,7 +4,7 @@ import {
     IMenuStatsValues,
     IStreamValues,
     StatisticType, typeChartLineDashboard,
-    typeInterval, typeIntervalDashboard
+    typeInterval, typeIntervalDashboard, typeTrash
 } from "../intrefaces/interface"
 
 export interface IStatsDashboard {
@@ -44,6 +44,37 @@ export interface ILastAmount {
     useragent: string
     amount: string
 }
+
+export interface IGeneralSettings {
+    postbackKey: string
+    clearDayStatistic: number
+    language?: 'ru' | 'en'
+    trash: typeTrash
+    trashUrl: string | null
+    logLimitClick: number
+    logLimitAmount: number
+    getKey: string
+    protect?: string
+    sendTelegram?: boolean
+    telegramBotToken?: string
+    telegramChatId?: string
+}
+
+export interface  ISettingsState {
+    loading: boolean
+    general: IGeneralSettings | null
+    blackIp: string[]
+    blackSignature: string[]
+    remoteUrl: string[]
+    fetchSettings: () => void
+    updateSettings: (values: IGeneralSettings) => void
+}
+
+export type ActionSettings =
+    | {type: 'START_LOADING'}
+    | {type: 'ERROR'}
+    | {type: 'UPDATE', values: IGeneralSettings}
+    | {type: 'FETCH_SETTINGS', values: ISettingsState}
 
 export interface IDashboardState {
     interval: typeIntervalDashboard

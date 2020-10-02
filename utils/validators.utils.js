@@ -35,16 +35,37 @@ exports.editGroup = [
         .isBoolean(),
 ]
 
+exports.editSetting = [
+    body('postbackKey', 'Postback must be string length min 5 max 20 characters')
+        .trim()
+        .isLength({min:5, max: 20}),
+    body('clearDayStatistic', 'Time unique has been number. Min 1 days. Max 30 days')
+        .isNumeric()
+        .isInt({min: 1, max: 30}),
+    body('trash', 'Select type trash')
+        .trim()
+        .exists(),
+    body('logLimitClick', 'Limit clicks has been number. Min 5. Max 1500')
+        .isNumeric()
+        .isInt({min: 1, max: 1500}),
+    body('logLimitAmount', 'Limit amount has been number. Min 5. Max 5000')
+        .isNumeric()
+        .isInt({min: 5, max: 5000}),
+    body('getKey', 'Get Key must be string length min 1 max 20 characters')
+        .trim()
+        .isLength({min:1, max: 20}),
+]
+
 exports.addGroup = [
     body('label', 'Label group must be alphanumeric string length min 3 max 8 characters')
         .isAlphanumeric()
         .trim()
         .isLength({min: 3, max: 8}),
-    body('name', 'Identifier  group must be alphanumeric string length min 3 max 8 characters')
+    body('name', 'Identifier group must be alphanumeric string length min 3 max 8 characters')
         .isAlphanumeric()
         .trim()
         .isLength({min: 3, max: 8}),
-    body('typeRedirect', 'Select type redirect  group')
+    body('typeRedirect', 'Select type redirect group')
         .trim()
         .exists(),
     body('checkUnic', 'Check unique has been boolean')
@@ -65,7 +86,7 @@ exports.addStream = [
         .isLength({min: 3, max: 8}),
     body('position', 'Position has been number')
         .isNumeric(),
-    body('typeRedirect', 'Select type redirect  group')
+    body('typeRedirect', 'Select type redirect group')
         .trim()
         .exists(),
     body('relation', 'Relation has been boolean')
