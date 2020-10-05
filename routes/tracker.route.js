@@ -6,6 +6,7 @@ const stream = require('../tracker/stream')
 const redirect = require('../tracker/redirect')
 const shortid = require('shortid')
 const DateFnsUtils = require('date-fns')
+const getUrl = require('../utils/url.utils')
 
 
 const router = Router()
@@ -20,6 +21,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
+        let url
         const time = new Date()
         const group = await Group.findOne({name: req.params.id}).populate('streams')
         if (!group){
@@ -44,11 +46,12 @@ router.get('/:id', async (req, res) => {
             }
             const isUsed = await stream(user, streams[i])
             if (isUsed) {
+                url = await getUrl(streams[i].typeRedirect, streams[i].code, subid, user.query)
                 if (group.useLog && streams[i].useLog) {
                     const statistic = new Statistic({
                         group: group._id,
                         stream: streams[i]._id,
-                        out: streams[i].code,
+                        out: url,
                         keyword: user.query,
                         redirect: streams[i].typeRedirect,
                         device: user.device,
@@ -65,14 +68,15 @@ router.get('/:id', async (req, res) => {
                     })
                     statistic.save()
                 }
-                await redirect(streams[i].typeRedirect, streams[i].code, res, subid, user.query)
+                await redirect(streams[i].typeRedirect, url, res)
                 return
             }
         }
+        url = await getUrl(group.typeRedirect, group.code, subid, user.query)
         if (group.useLog) {
             const statistic = new Statistic({
                 group: group._id,
-                out: group.code,
+                out: url,
                 keyword: user.query,
                 redirect: group.typeRedirect,
                 device: user.device,
@@ -88,7 +92,7 @@ router.get('/:id', async (req, res) => {
             })
             statistic.save()
         }
-        await redirect(group.typeRedirect, group.code, res, subid, user.query)
+        await redirect(group.typeRedirect, url, res)
 
     } catch (e) {
         console.log(e)
