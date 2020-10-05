@@ -1,9 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {Tab} from "@material-ui/core";
 import {TabContext, TabList, TabPanel} from "@material-ui/lab"
-import {GeneralOption} from "../components/GeneralOption";
-import {SettingsContext} from "../context/SettingsState";
-import {Loader} from "../components/Loader";
+import {GeneralOption} from "../components/GeneralOption"
+import {SettingsContext} from "../context/SettingsState"
+import {Loader} from "../components/Loader"
+import {OtherOption} from "../components/OtherOption"
 
 export const SettingsPage: React.FC = () => {
     const [value, setValue] = useState<string>('general')
@@ -25,12 +26,10 @@ export const SettingsPage: React.FC = () => {
                     indicatorColor="primary"
                     textColor="primary">
                         <Tab label="General" value='general'/>
-                        <Tab label="Bots" value='bots'/>
-                        <Tab label="Remote" value='remote'/>
+                        <Tab label="Other" value='other'/>
                 </TabList>
             <TabPanel value='general'><GeneralOption/></TabPanel>
-            <TabPanel value='bots'>Bots</TabPanel>
-            <TabPanel value='remote'>Remote</TabPanel>
+            <TabPanel value='other'><OtherOption/></TabPanel>
         </TabContext>
     )
 }

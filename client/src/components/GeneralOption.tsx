@@ -44,6 +44,8 @@ export const GeneralOption: React.FC = () => {
     const [getKey, setGetKey] = useState<string>(general && general.getKey ? general.getKey : '')
     const [logLimitClick, setLogLimitClick] = useState<number>(general && general.logLimitClick ? general.logLimitClick : 10)
     const [logLimitAmount, setLogLimitAmount] = useState<number>(general && general.logLimitAmount ? general.logLimitAmount : 10)
+    const [clearRemote, setClearRemote] = useState<number>(general && general.clearRemote ? general.clearRemote : 0)
+
 
     const saveHandler = () => {
         const value: IGeneralSettings = {
@@ -53,7 +55,8 @@ export const GeneralOption: React.FC = () => {
             trashUrl,
             logLimitClick: +logLimitClick,
             logLimitAmount: +logLimitAmount,
-            getKey
+            getKey,
+            clearRemote
         }
         updateSettings({...value})
     }
@@ -90,6 +93,18 @@ export const GeneralOption: React.FC = () => {
                             onChange={(event) => setClearDayStatistic(+event.target.value)}
                         />
                         <FormHelperText id="clearDayStatistic-helper">How long save to store statistics?</FormHelperText>
+                    </FormControl>
+                </Grid>
+                <Grid item>
+                    <FormControl fullWidth>
+                        <InputLabel htmlFor="clearRemote">Clear remote days</InputLabel>
+                        <Input
+                            type='number'
+                            id="clearRemote"
+                            value={clearRemote}
+                            onChange={(event) => setClearRemote(+event.target.value)}
+                        />
+                        <FormHelperText id="clearRemote-helper">How long save to store remote value?</FormHelperText>
                     </FormControl>
                 </Grid>
                 <Grid item>

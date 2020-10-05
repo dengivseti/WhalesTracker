@@ -8,6 +8,7 @@ const MongoStore = require('connect-mongodb-session')(session)
 const errorHandler = require('./middleware/error.middleware')
 const readFiles = require('./utils/readFiles.utils')
 const getSettings = require('./utils/getSettings.utils')
+const clearIp = require('./utils/ip.utils')
 
 
 const app = express()
@@ -49,9 +50,12 @@ async function start() {
             useUnifiedTopology: true,
             useCreateIndex: true,
         })
-        global.blackIps = await readFiles(path.join(__dirname, 'dist', 'blackIps.txt'))
-        global.blackSignatures = await readFiles(path.join(__dirname, 'dist', 'blackSignatures.txt'))
-        global.listUrl = await readFiles(path.join(__dirname, 'dist', 'listUrl.txt'))
+        const blackIps = await readFiles(path.join(__dirname, 'dist', 'ips.dat'))
+        global.blackIps = clearIp(blackIps)
+        const blackSignatures = await readFiles(path.join(__dirname, 'dist', 'signature.dat'))
+        global.blackSignatures = blackSignatures.filter(str => str.trim())
+        const listUrl = await readFiles(path.join(__dirname, 'dist', 'remote.dat'))
+        global.listUrl = listUrl.filter(str => str.trim())
         getSettings()
         app.listen(PORT, () => console.log(`Server started on port ${PORT}...`))
     } catch (e) {

@@ -14,6 +14,7 @@ const enums = [
     'sendTelegram', // send notification in Telegram
     'telegramBotToken', // token auth Telegram
     'telegramChatId', // id account Telegram
+    'clearRemote', //day clear remote
 ]
 
 const schema = new Schema({

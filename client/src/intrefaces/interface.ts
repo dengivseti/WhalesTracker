@@ -35,7 +35,6 @@ export type typeFilter = 'device'
     | 'useListBlackIps'
     | 'useListBotSignatures'
 
-
 export type StatisticType = keyof typeof TAB
 
 export type typeIntervalDashboard =
@@ -58,6 +57,15 @@ export type typeInterval =
     | 'lastWeek'
     | 'thisMounth'
     | 'lastMounth'
+
+export type typeList = 'blackIps' | 'blackSignatures' | 'listUrl'
+
+export type typeActionListOption = 'edit' | 'add' | 'delete' | 'clear'
+
+export interface typeArrayListOtherSettings {
+    type: typeList,
+    text: string,
+}
 
 export interface IMenuStatsValues {
     type: StatisticType

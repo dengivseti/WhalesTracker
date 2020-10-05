@@ -3,8 +3,8 @@ import {
     IGroupValues, IMenuDashboardValues,
     IMenuStatsValues,
     IStreamValues,
-    StatisticType, typeChartLineDashboard,
-    typeInterval, typeIntervalDashboard, typeTrash
+    StatisticType, typeActionListOption, typeChartLineDashboard,
+    typeInterval, typeIntervalDashboard, typeList, typeTrash
 } from "../intrefaces/interface"
 
 export interface IStatsDashboard {
@@ -58,23 +58,44 @@ export interface IGeneralSettings {
     sendTelegram?: boolean
     telegramBotToken?: string
     telegramChatId?: string
+    clearRemote: number
 }
 
 export interface  ISettingsState {
     loading: boolean
     general: IGeneralSettings | null
-    blackIp: string[]
-    blackSignature: string[]
-    remoteUrl: string[]
+    list: string[]
+    typeList: typeList | null
+    intBlackIp: number
+    intBlackSignature: number
+    intRemoteUrl: number
+    modal: boolean
+    action: typeActionListOption
     fetchSettings: () => void
     updateSettings: (values: IGeneralSettings) => void
+    fetchList: (listName: typeList) => void
+    setModal: () => void
+    setAction: (typeAction: typeActionListOption) => void
+    setTypeList: (typeList: typeList) => void
+    saveList: (data: string[]) => void
+    clearList: (typeList: typeList) => void
 }
 
 export type ActionSettings =
     | {type: 'START_LOADING'}
+    | {type: 'FINISH_LOADING'}
     | {type: 'ERROR'}
     | {type: 'UPDATE', values: IGeneralSettings}
     | {type: 'FETCH_SETTINGS', values: ISettingsState}
+    | {type: 'FETCH_LIST', values: string[]}
+    | {type: 'SET_MODAL'}
+    | {type: 'SET_ACTION', typeAction: typeActionListOption}
+    | {type: 'SET_TYPE_LIST', typeList: typeList}
+    | {type: 'UPDATE_COUNT_LIST',
+        intBlackIp: number
+        intBlackSignature: number
+        intRemoteUrl: number
+        }
 
 export interface IDashboardState {
     interval: typeIntervalDashboard

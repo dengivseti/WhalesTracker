@@ -19,7 +19,8 @@ module.exports = getSettings = async () => {
         'protect': '0',
         'sendTelegram': '0',
         'telegramBotToken': '',
-        'telegramChatId': ''
+        'telegramChatId': '',
+        'clearRemote': '30'
     }
     const keys = Object.keys(objSetting)
     keys.forEach(key => {

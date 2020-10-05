@@ -1,6 +1,8 @@
 const Remote = require('../models/Remote')
+const DateFnsUtils = require('date-fns')
 
 const getUrl = async (query) => {
+    const time = new Date()
     if (!query){
         return global.listUrl[Math.floor(Math.random() * global.listUrl.length)]
     }
@@ -10,7 +12,7 @@ const getUrl = async (query) => {
     }
     if (global.listUrl.length > 0){
         const url = global.listUrl[Math.floor(Math.random() * global.listUrl.length)]
-        const remote = new Remote({query, url})
+        const remote = new Remote({query, url, expireAt: DateFnsUtils.addDays(time, global.clearRemote)})
         remote.save()
         return url
     }

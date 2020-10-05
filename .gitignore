@@ -2,5 +2,9 @@ node_modules
 config/default.json
 dist/listUrl.txt
 dist/blackIps.txt
+dist/ips.dat
+dist/remote.dat
+dist/signature.dat
 test.js
 client/node_modules
+.idea
