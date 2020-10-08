@@ -9,7 +9,7 @@ interface RouteParams {
 }
 
 export const EditPage: React.FC = () => {
-    const {streams, loading, fetchGroup, group, saveEditGroup} = useContext(GroupContext)
+    const {loading, fetchGroup, saveEditGroup} = useContext(GroupContext)
     const params = useParams<RouteParams>()
 
     const getGroupInfo = useCallback(async () => {
@@ -17,7 +17,6 @@ export const EditPage: React.FC = () => {
     }, [params.id])
 
     const saveHandler = () => {
-        console.log(group, streams)
         saveEditGroup()
     }
 

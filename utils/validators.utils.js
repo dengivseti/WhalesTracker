@@ -98,3 +98,18 @@ exports.addStream = [
     body('isBot', 'Bot has been boolean')
         .isBoolean(),
 ]
+
+exports.addOffer = [
+    body('name', 'Name offer must be alphanumeric string length min 3 max 25 characters')
+        .trim()
+        .isLength({min: 3, max: 25}),
+    body('type', 'Select type distribution offer')
+        .trim()
+        .exists(),
+    body('offers.*.url', 'String must be url')
+        .trim()
+        .isURL(),
+    body('offers.*.percent', 'Input correct percent min 0 max 100 percent')
+        .isNumeric()
+        .isInt({min: 0, max: 100}),
+]

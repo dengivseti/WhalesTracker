@@ -1,8 +1,9 @@
 const {Router} = require('express')
 const auth = require('../middleware/auth.middleware')
 const {validationResult} = require('express-validator')
-const {editGroup, addStream, addGroup} = require('../utils/validators.utils')
+const {editGroup, addStream, addGroup, addOffer} = require('../utils/validators.utils')
 const Group = require('../models/Group')
+const Offer = require('../models/Offer')
 const Stream = require('../models/Stream')
 
 const router = Router()
@@ -10,6 +11,38 @@ const router = Router()
 router.get('/dashboard', auth, async (req, res) => {
     try{
         res.json('TEST GET')
+    }catch (e) {
+        res.status(500).json({message: 'Something went wrong'})
+    }
+})
+
+router.post('/offers/edit', auth, addOffer, async (req, res) => {
+    try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()){
+            return res.status(422).json({message: errors.array()[0].msg})
+        }
+        if (req.body && req.body._id){
+            const {name, type, _id, offers} = req.body
+            await Offer.where({_id: _id}).updateOne({
+                name, type, offers
+            })
+            res.json(req.body)
+        } else {
+            const offer = new Offer({...req.body})
+            const id = await offer.save()
+            res.json(id)
+        }
+
+    }catch (e) {
+        res.status(500).json({message: 'Something went wrong', e: e})
+    }
+})
+
+router.delete ('/offers/:id/', auth, async (req, res) => {
+    try {
+        await Offer.deleteOne({_id: req.params.id})
+        res.json({status: 'OK'})
     }catch (e) {
         res.status(500).json({message: 'Something went wrong'})
     }

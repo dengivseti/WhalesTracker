@@ -1,6 +1,7 @@
 const {Router} = require('express')
 const auth = require('../middleware/auth.middleware')
 const Group = require('../models/Group')
+const Offer = require('../models/Offer')
 const Statistic = require('../models/Statistic')
 const DateFnsUtils = require('date-fns')
 
@@ -31,6 +32,17 @@ router.get('/groups', auth, async (req, res) => {
     }
 })
 
+router.get('/offers', auth, async (req, res) => {
+    try{
+        const offers = await Offer.find()
+        if (!offers){
+            return res.json([])
+        }
+        return res.json(offers)
+    }catch (e) {
+        res.status(500).json({message: 'Something went wrong'})
+    }
+})
 
 router.get('/stats/dashboard', auth, async (req, res) => {
     try{

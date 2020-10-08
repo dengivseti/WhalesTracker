@@ -8,6 +8,7 @@ import {GroupState} from "./context/GroupState";
 import {StatisticState} from './context/StatisticState'
 import {DashboardState} from "./context/DashboardState";
 import {SettingsState} from "./context/SettingsState";
+import {OfferState} from "./context/OfferState";
 
 
 const App: React.FC = () => {
@@ -34,9 +35,11 @@ const App: React.FC = () => {
                 <StatisticState>
                     <DashboardState>
                         <SettingsState>
-                            <Layout>
-                                {routes}
-                            </Layout>
+                            <OfferState>
+                                <Layout>
+                                    {routes}
+                                </Layout>
+                            </OfferState>
                         </SettingsState>
                     </DashboardState>
                 </StatisticState>

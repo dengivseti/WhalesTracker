@@ -3,7 +3,7 @@ import {
     typeFilter,
     typeInterval,
     typeIntervalDashboard,
-    typeRedirectValue, typeTrash
+    typeRedirectValue, typeTrash, typeDistributionOffer
 } from "../intrefaces/interface"
 
 interface IValueObject {
@@ -30,9 +30,21 @@ export interface IValueTypeRedirect {
     disabled: boolean
 }
 
+export interface IDistributionOffer {
+    value: typeDistributionOffer
+    name: string
+    isUsePercent: boolean
+}
+
 export const listTrashOption: IValueTrashSetting[] = [
     {value: 'url', name: 'Redirect on URL'},
     {value: 'notFound', name: '404 not found'}
+]
+
+export const listDistribution: IDistributionOffer[] = [
+    {value: "split", name: 'Split', isUsePercent: true},
+    {value: "rotator", name: 'Rotator', isUsePercent: false},
+    {value: "evely", name: 'Evely', isUsePercent: false},
 ]
 
 export const listTypeRedirect: IValueTypeRedirect[] = [

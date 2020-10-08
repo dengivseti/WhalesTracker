@@ -1,7 +1,7 @@
 import {
     IFilterValues,
     IGroupValues, IMenuDashboardValues,
-    IMenuStatsValues,
+    IMenuStatsValues, IOffer,
     IStreamValues,
     StatisticType, typeActionListOption, typeChartLineDashboard,
     typeInterval, typeIntervalDashboard, typeList, typeTrash
@@ -61,6 +61,18 @@ export interface IGeneralSettings {
     clearRemote: number
 }
 
+export interface IOfferState {
+    loading: boolean
+    modal: boolean
+    offers: IOffer[]
+    offer: IOffer | null
+    fetchOffer: () => void
+    saveOffer: (offer: IOffer) => void
+    setModal: () => void
+    deleteOffer: (id: string) => void
+    selectOffer: (offer: IOffer) => void
+}
+
 export interface  ISettingsState {
     loading: boolean
     general: IGeneralSettings | null
@@ -80,6 +92,16 @@ export interface  ISettingsState {
     saveList: (data: string[]) => void
     clearList: (typeList: typeList) => void
 }
+
+export type ActionOffer =
+    | {type: 'START_LOADING'}
+    | {type: 'FINISH_LOADING'}
+    | {type: 'ERROR'}
+    | {type: 'SET_MODAL'}
+    | {type: 'FETCH_OFFERS', offers: IOffer[]}
+    | {type: 'SAVE_OFFER', offers: IOffer[]}
+    | {type: 'DELETE_OFFER', offers: IOffer[]}
+    | {type: 'SELECT_OFFER', offer: IOffer}
 
 export type ActionSettings =
     | {type: 'START_LOADING'}

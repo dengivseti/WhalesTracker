@@ -19,6 +19,8 @@ export type typeRedirectValue = 'httpRedirect'
 
 export type typeTrash = 'url' | 'notFound'
 
+export type typeDistributionOffer = 'rotator' | 'split' | 'evely'
+
 export type typeFilter = 'device'
     | 'countries'
     | 'botIpv6'
@@ -61,6 +63,19 @@ export type typeInterval =
 export type typeList = 'blackIps' | 'blackSignatures' | 'listUrl'
 
 export type typeActionListOption = 'edit' | 'add' | 'delete' | 'clear'
+
+export interface IOffer {
+    _id?: string
+    date?: Date
+    name: string
+    type: typeDistributionOffer
+    offers: IOfferValue[]
+}
+
+export interface IOfferValue {
+    url: string
+    percent: number
+}
 
 export interface typeArrayListOtherSettings {
     type: typeList,
