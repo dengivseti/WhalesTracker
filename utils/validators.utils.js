@@ -13,14 +13,14 @@ exports.authValidator = [
 ]
 
 exports.editGroup = [
-    body('group.label', 'Label group must be alphanumeric string length min 3 max 8 characters')
+    body('group.label', 'Label group must be alphanumeric string length min 3 max 20 characters')
         .isAlphanumeric()
         .trim()
-        .isLength({min: 3, max: 8}),
-    body('group.name', 'Identifier  group must be alphanumeric string length min 3 max 8 characters')
+        .isLength({min: 3, max: 20}),
+    body('group.name', 'Identifier  group must be alphanumeric string length min 3 max 20 characters')
         .isAlphanumeric()
         .trim()
-        .isLength({min: 3, max: 8}),
+        .isLength({min: 3, max: 20}),
     body('group.typeRedirect', 'Select type redirect  group')
         .trim()
         .exists(),
@@ -57,14 +57,14 @@ exports.editSetting = [
 ]
 
 exports.addGroup = [
-    body('label', 'Label group must be alphanumeric string length min 3 max 8 characters')
+    body('label', 'Label group must be alphanumeric string length min 3 max 15 characters')
         .isAlphanumeric()
         .trim()
-        .isLength({min: 3, max: 8}),
-    body('name', 'Identifier group must be alphanumeric string length min 3 max 8 characters')
+        .isLength({min: 3, max: 15}),
+    body('name', 'Identifier group must be alphanumeric string length min 3 max 20 characters')
         .isAlphanumeric()
         .trim()
-        .isLength({min: 3, max: 8}),
+        .isLength({min: 3, max: 20}),
     body('typeRedirect', 'Select type redirect group')
         .trim()
         .exists(),
@@ -80,10 +80,10 @@ exports.addGroup = [
 ]
 
 exports.addStream = [
-    body('name', 'Label stream must be alphanumeric string length min 3 max 8 characters')
+    body('name', 'Label stream must be alphanumeric string length min 3 max 15 characters')
         .isAlphanumeric()
         .trim()
-        .isLength({min: 3, max: 8}),
+        .isLength({min: 3, max: 15}),
     body('position', 'Position has been number')
         .isNumeric(),
     body('typeRedirect', 'Select type redirect group')

@@ -141,6 +141,11 @@ module.exports = async (typeRedirect, url, res) => {
                 return res.send(url)
             }
             return res.end()
+        case 'offer':
+            if (url){
+                return res.redirect(url)
+            }
+            return res.end()
         case 'showHtml':
             res.set('Content-Type', 'text/html')
             html = `

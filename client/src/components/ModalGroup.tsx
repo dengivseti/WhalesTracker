@@ -71,8 +71,6 @@ export const ModalGroup: React.FC<IModalProps> = ({open, onClose}) => {
         }
     }, [group])
 
-
-
     const clickButtonHandler = async (event: React.MouseEvent) => {
         event.preventDefault()
         const createGroup: IGroupValues = {

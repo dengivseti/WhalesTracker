@@ -52,7 +52,7 @@ export const ListOffers = () => {
 
     return (
         <>
-            {offers.length &&
+            {offers.length > 0 &&
                 <Paper>
                     <List className={classes.list}>
                         {offers.map((offer: IOffer) => (
@@ -75,7 +75,6 @@ export const ListOffers = () => {
                                     </IconButton>
                                 </ListItemSecondaryAction>
                             </ListItem>
-
                         ))}
                     </List>
                 </Paper>

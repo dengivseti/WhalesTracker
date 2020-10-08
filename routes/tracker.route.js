@@ -21,6 +21,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
+        let count = 0
         let url
         const time = new Date()
         const group = await Group.findOne({name: req.params.id}).populate('streams')
@@ -33,8 +34,9 @@ router.get('/:id', async (req, res) => {
         const user = userInfo(req)
         let unique = true
         if (group.checkUnic && group.timeUnic > 0) {
-            const candidate = await Statistic.findOne({ip: user.ip, date: {$gte: DateFnsUtils.subHours(time, group.timeUnic)}})
-            if (candidate) {
+            const candidate = await Statistic.find({ip: user.ip, date: {$gte: DateFnsUtils.subHours(time, group.timeUnic)}})
+            if (candidate.length) {
+                count = candidate.length
                 unique = false
             }
         }
@@ -46,7 +48,7 @@ router.get('/:id', async (req, res) => {
             }
             const isUsed = await stream(user, streams[i])
             if (isUsed) {
-                url = await getUrl(streams[i].typeRedirect, streams[i].code, subid, user.query)
+                url = await getUrl(streams[i].typeRedirect, streams[i].code, subid, user.query, count)
                 if (group.useLog && streams[i].useLog) {
                     const statistic = new Statistic({
                         group: group._id,
@@ -72,7 +74,7 @@ router.get('/:id', async (req, res) => {
                 return
             }
         }
-        url = await getUrl(group.typeRedirect, group.code, subid, user.query)
+        url = await getUrl(group.typeRedirect, group.code, subid, user.query, count)
         if (group.useLog) {
             const statistic = new Statistic({
                 group: group._id,

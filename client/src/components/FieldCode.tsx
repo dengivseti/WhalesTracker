@@ -23,6 +23,12 @@ export const FieldCode: React.FC<IFieldProps> = (props) => {
         }
     }, [type])
 
+    useEffect(() => {
+        if (offers.length > 0 && type === 'select') {
+            onChange(offers[0]._id!)
+        }
+    }, [offers])
+
     if (loading) {
         return <Loader/>
     }
