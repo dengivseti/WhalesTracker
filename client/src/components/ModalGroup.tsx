@@ -16,6 +16,7 @@ import {IGroupValues, typeRedirectValue} from "../intrefaces/interface";
 import {useMessage} from "../hooks/message.hook";
 import {GroupContext} from "../context/GroupState";
 import { useHistory } from 'react-router-dom';
+import {FieldCode} from "./FieldCode";
 
 const useStyle = makeStyles((theme: Theme) =>
     createStyles({
@@ -141,17 +142,10 @@ export const ModalGroup: React.FC<IModalProps> = ({open, onClose}) => {
                     </FormControl>
                 </Grid>
                 <Grid className={classes.formControl}>
-                    <TextField
-                        size="small"
-                        margin="dense"
-                        fullWidth
-                        id="code"
-                        label={formFormTypeRedirect.description}
-                        name="code"
-                        disabled={!formFormTypeRedirect.disabled}
-                        value={code}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setCode(event.target.value)}
-                    />
+                    <FieldCode type={formFormTypeRedirect.type}
+                               description={formFormTypeRedirect.description}
+                               value={code}
+                               onChange={(value) => setCode(value)} />
                 </Grid>
                 <Grid container justify="space-between" direction="row-reverse">
                     <Grid item xs={6} sm={6}>

@@ -14,6 +14,7 @@ import {IValueTypeRedirect, listTypeRedirect} from "../utils/edit.utils";
 import {GroupContext} from "../context/GroupState";
 import {useMessage} from "../hooks/message.hook";
 import {IStreamValues, typeRedirectValue} from "../intrefaces/interface";
+import {FieldCode} from "./FieldCode";
 
 const useStyle = makeStyles((theme: Theme) =>
     createStyles({
@@ -122,16 +123,10 @@ export const ModalStream: React.FC<IModalProps> = ({open, onClose, onSave}) => {
                     </FormControl>
                 </Grid>
                 <Grid className={classes.formControl}>
-                    <TextField
-                        size="small"
-                        margin="dense"
-                        fullWidth
-                        label={formFormTypeRedirect.description}
-                        name="code"
-                        disabled={!formFormTypeRedirect.disabled}
-                        value={code}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setCode(event.target.value)}
-                    />
+                    <FieldCode type={formFormTypeRedirect.type}
+                               description={formFormTypeRedirect.description}
+                               value={code}
+                               onChange={(value) => setCode(value)} />
                 </Grid>
                 <Grid container justify="space-between" >
                         <FormLabel className={classes.checkboxControl}>Filtering values relation</FormLabel>

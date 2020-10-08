@@ -1,6 +1,7 @@
 import { TAB } from "../pages/StatisticPage"
 
 export type typeRedirectValue = 'httpRedirect'
+    | 'offer'
     | 'jsRedirect'
     | 'remote'
     | 'iframeRedirect'
@@ -20,6 +21,8 @@ export type typeRedirectValue = 'httpRedirect'
 export type typeTrash = 'url' | 'notFound'
 
 export type typeDistributionOffer = 'rotator' | 'split' | 'evely'
+
+export type fieldTypeRedirect = 'select' | 'textInput' | null
 
 export type typeFilter = 'device'
     | 'countries'

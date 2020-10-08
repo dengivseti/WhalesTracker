@@ -3,7 +3,7 @@ import {
     typeFilter,
     typeInterval,
     typeIntervalDashboard,
-    typeRedirectValue, typeTrash, typeDistributionOffer
+    typeRedirectValue, typeTrash, typeDistributionOffer, fieldTypeRedirect
 } from "../intrefaces/interface"
 
 interface IValueObject {
@@ -27,7 +27,7 @@ export interface IValueTypeRedirect {
     value: typeRedirectValue
     name: string
     description: string
-    disabled: boolean
+    type: fieldTypeRedirect
 }
 
 export interface IDistributionOffer {
@@ -48,22 +48,23 @@ export const listDistribution: IDistributionOffer[] = [
 ]
 
 export const listTypeRedirect: IValueTypeRedirect[] = [
-    {value: 'httpRedirect', name: 'HTTP Redirect', description: 'Input URL', disabled: true},
-    {value: 'jsRedirect', name: 'JS Redirect', description: 'Input URL', disabled: true},
-    {value: 'jsSelection', name: 'JS Selection', description: 'Input URL', disabled: true},
-    {value: 'remote', name: 'Remote', description: '', disabled: false},
-    {value: 'iframe', name: 'Iframe', description: 'Input URL', disabled: true},
-    {value: 'iframeRedirect', name: 'Iframe Redirect', description: 'Input URL', disabled: true},
-    {value: 'metaRefresh', name: 'Meta Redirect', description: 'Input URL', disabled: true},
-    {value: 'javascript', name: 'JavaScript', description: 'Input JavaScript code', disabled: true},
-    {value: 'showHtml', name: 'Show Html', description: 'Input HTML', disabled: true},
-    {value: 'showText', name: 'Show Text', description: 'Input text', disabled: true},
-    {value: 'showJson', name: 'Show JSON', description: 'Input JSON', disabled: true},
-    {value: '403', name: '403 Error', description: '', disabled: false},
-    {value: '400', name: '400 Error', description: '', disabled: false},
-    {value: '404', name: '404 Error', description: '', disabled: false},
-    {value: '500', name: '500 Error', description: '', disabled: false},
-    {value: 'end', name: 'Stop', description: '', disabled: false},
+    {value: 'httpRedirect', name: 'HTTP Redirect', description: 'Input URL', type: 'textInput'},
+    {value: 'jsRedirect', name: 'JS Redirect', description: 'Input URL', type: 'textInput'},
+    {value: 'offer', name: 'Offer', description: 'Select offer', type: 'select'},
+    {value: 'jsSelection', name: 'JS Selection', description: 'Input URL', type: 'textInput'},
+    {value: 'remote', name: 'Remote', description: '', type: null},
+    {value: 'iframe', name: 'Iframe', description: 'Input URL', type: 'textInput'},
+    {value: 'iframeRedirect', name: 'Iframe Redirect', description: 'Input URL', type: 'textInput'},
+    {value: 'metaRefresh', name: 'Meta Redirect', description: 'Input URL', type: 'textInput'},
+    {value: 'javascript', name: 'JavaScript', description: 'Input JavaScript code', type: 'textInput'},
+    {value: 'showHtml', name: 'Show Html', description: 'Input HTML', type: 'textInput'},
+    {value: 'showText', name: 'Show Text', description: 'Input text', type: 'textInput'},
+    {value: 'showJson', name: 'Show JSON', description: 'Input JSON', type: 'textInput'},
+    {value: '403', name: '403 Error', description: '', type: null},
+    {value: '400', name: '400 Error', description: '', type: null},
+    {value: '404', name: '404 Error', description: '', type: null},
+    {value: '500', name: '500 Error', description: '', type: null},
+    {value: 'end', name: 'Stop', description: '', type: null}
 ]
 
 const listBrowsers = [

@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useState} from 'react'
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {
     Select,
-    Button,
     TextField,
     InputLabel,
     FormControl,
@@ -12,6 +11,7 @@ import {
 import {IValueTypeRedirect, listTypeRedirect} from "../utils/edit.utils";
 import {GroupContext} from "../context/GroupState";
 import {IGroupValues, typeRedirectValue} from "../intrefaces/interface";
+import {FieldCode} from "./FieldCode";
 
 const useStyle = makeStyles((theme: Theme) =>
     createStyles({
@@ -103,17 +103,10 @@ export const EditGroup: React.FC = () => {
                 </FormControl>
             </Grid>
             <Grid className={classes.formControl}>
-                <TextField
-                    size="small"
-                    margin="dense"
-                    fullWidth
-                    id="code"
-                    label={formFormTypeRedirect.description}
-                    name="code"
-                    disabled={!formFormTypeRedirect.disabled}
-                    value={code}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setCode(event.target.value)}
-                />
+                <FieldCode type={formFormTypeRedirect.type}
+                           description={formFormTypeRedirect.description}
+                           value={code}
+                           onChange={(value) => setCode(value)} />
             </Grid>
             <Grid container justify="space-between" direction="row-reverse">
                 <Grid item xs={6} sm={6}>
