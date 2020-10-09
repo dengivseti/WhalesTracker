@@ -1,12 +1,17 @@
 module.exports = async (typeRedirect, url, res) => {
-    switch (typeRedirect){
-        case 'httpRedirect':
-            return res.redirect(url)
-        case 'jsRedirect':
-            res.set('Content-Type', 'text/html')
-            html = `
+  let html
+  let iframe
+  let js
+  let meta
+  switch (typeRedirect) {
+    case 'httpRedirect':
+      return res.redirect(url)
+    case 'jsRedirect':
+      res.set('Content-Type', 'text/html')
+      html = `
             <!DOCTYPE html>
             <head>
+                <title> </title>
                 <meta http-equiv="refresh" content="1; URL=${url}">
                 <script type="text/javascript">window.location = "${url}";</script>
             </head>
@@ -15,11 +20,11 @@ module.exports = async (typeRedirect, url, res) => {
             </body>
             </html>
             `
-            return res.status(200).send(html)
-        case 'iframe':
-            res.set('Content-Type', 'text/javascript')
-            iframe = `
-                var splashpage = {
+      return res.status(200).send(html)
+    case 'iframe':
+      res.set('Content-Type', 'text/javascript')
+      iframe = `
+                const splashpage = {
                  splashenabled: 1,
                  splashpageurl: "${url}",
                  enablefrequency: 0,
@@ -84,36 +89,39 @@ module.exports = async (typeRedirect, url, res) => {
                 };
                 if(splashpage.browserdetectstr && splashpage.splashenabled == 1) splashpage.init();
             `
-            return res.status(200).send(iframe)
-        case 'javascript':
-            res.set('Content-Type', 'text/html')
-            js = `
+      return res.status(200).send(iframe)
+    case 'javascript':
+      res.set('Content-Type', 'text/html')
+      js = `
             <!DOCTYPE html>
             <head>
+            <title> </title>
             </head>
             <body>
             <script type="text/javascript">${url}</script>
             </body>
             </html>
             `
-            return res.status(200).send(js)
-        case 'metaRefresh':
-            res.set('Content-Type', 'text/html')
-            meta = `
+      return res.status(200).send(js)
+    case 'metaRefresh':
+      res.set('Content-Type', 'text/html')
+      meta = `
                 <!DOCTYPE html>
                 <head>
+                <title> </title>
                 <meta http-equiv="refresh" content="0; URL=${url}">
                 </head>
                 <body>
                 </body>
                 </html>
             `
-            return res.status(200).send(meta)
-        case 'iframeRedirect':
-            res.set('Content-Type', 'text/html')
-            iframe = `
+      return res.status(200).send(meta)
+    case 'iframeRedirect':
+      res.set('Content-Type', 'text/html')
+      iframe = `
                 <!DOCTYPE html>
                 <head>
+                <title> </title>
                 <meta http-equiv="content-type" content="text/html; charset=utf-8">
                 </head>
                 <body>
@@ -125,47 +133,48 @@ module.exports = async (typeRedirect, url, res) => {
                 </body>
                 </html>
             `
-            return res.status(200).send(iframe)
-        case 'jsSelection':
-            res.set('Content-Type', 'text/javascript')
-            js = `
+      return res.status(200).send(iframe)
+    case 'jsSelection':
+      res.set('Content-Type', 'text/javascript')
+      js = `
                 function process(){
                 window.location = "${url}";
                 }
                 window.onerror = process;
                 process()
             `
-            return res.status(200).send(js)
-        case 'remote':
-            if (url){
-                return res.send(url)
-            }
-            return res.end()
-        case 'offer':
-            if (url){
-                return res.redirect(url)
-            }
-            return res.end()
-        case 'showHtml':
-            res.set('Content-Type', 'text/html')
-            html = `
+      return res.status(200).send(js)
+    case 'remote':
+      if (url) {
+        return res.send(url)
+      }
+      return res.end()
+    case 'offer':
+      if (url) {
+        return res.redirect(url)
+      }
+      return res.end()
+    case 'showHtml':
+      res.set('Content-Type', 'text/html')
+      html = `
             <!DOCTYPE html>
             <head>
+            <title> </title>
             <meta name="robots" content="noindex,nofollow">
             <meta http-equiv="content-type" content="text/html; charset=utf-8">
             </head>
             <body>${url}</body>
             </html>
             `
-            return res.status(200).send(html)
-        case 'showText':
-            res.set('Content-Type', 'text/plain')
-            return res.status(200).send(url)
-        case 'showJson':
-            res.set('Content-Type', 'application/json')
-            return res.status(200).send(url)
-        case '403':
-            html = `
+      return res.status(200).send(html)
+    case 'showText':
+      res.set('Content-Type', 'text/plain')
+      return res.status(200).send(url)
+    case 'showJson':
+      res.set('Content-Type', 'application/json')
+      return res.status(200).send(url)
+    case '403':
+      html = `
             <!DOCTYPE html>
             <head>
             <title>Access forbidden!</title>
@@ -181,11 +190,11 @@ module.exports = async (typeRedirect, url, res) => {
             </body>
             </html>
             `
-            return res.status(403).send(html)
-        case '400':
-            return res.status(400).send('Bad Request')
-        case '404':
-            html = `
+      return res.status(403).send(html)
+    case '400':
+      return res.status(400).send('Bad Request')
+    case '404':
+      html = `
                 <!DOCTYPE html>
                 <head>
                 <title>Object not found!</title>
@@ -196,9 +205,9 @@ module.exports = async (typeRedirect, url, res) => {
                 </body>
                 </html>
             `
-            return res.status(404).send(html)
-        case '500':
-            html = `
+      return res.status(404).send(html)
+    case '500':
+      html = `
                 <!DOCTYPE html>
                 <head>
                 <title>Server error!</title>
@@ -212,9 +221,10 @@ module.exports = async (typeRedirect, url, res) => {
                 </body>
                 </html>
             `
-            return res.status(500).send(html)
-        case 'end':
-            return res.end()
-        default: return res.end()
-    }
+      return res.status(500).send(html)
+    case 'end':
+      return res.end()
+    default:
+      return res.end()
+  }
 }
