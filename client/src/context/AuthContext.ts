@@ -1,18 +1,19 @@
-import {createContext} from "react"
+import { createContext } from 'react'
 
 function noop() {}
 
-
 interface IAuthContext {
-    userId: string | null
-    isAuthenticated: boolean
-    logout(): void
-    login(id: string): void
+  userId: string | null
+  isAuthenticated: boolean
+
+  logout(): void
+
+  login(id: string): void
 }
 
 export const AuthContext = createContext<IAuthContext>({
-    userId: null,
-    isAuthenticated: false,
-    logout: noop,
-    login: noop
+  userId: null,
+  isAuthenticated: false,
+  logout: noop,
+  login: noop,
 })

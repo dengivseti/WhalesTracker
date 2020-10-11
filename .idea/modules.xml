@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/MERN_TRACKER.iml" filepath="$PROJECT_DIR$/.idea/MERN_TRACKER.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/tds.iml" filepath="$PROJECT_DIR$/.idea/tds.iml" />
     </modules>
   </component>
 </project>

@@ -44,7 +44,11 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "react-hooks/exhaustive-deps": "off",
+      "no-console": "warn"
+    }
   },
   "proxy": "http://localhost:5000",
   "browserslist": {

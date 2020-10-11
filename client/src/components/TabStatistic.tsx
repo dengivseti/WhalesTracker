@@ -1,22 +1,20 @@
-import React, {useContext, useEffect} from 'react'
+import React, { useContext, useEffect } from 'react'
 import { MenuStatistic } from './MenuStatistic'
-import {StatisticContext} from "../context/StatisticState"
-import {Loader} from "./Loader"
-import {TableStatistic} from "./TableStatistic"
-
-
+import { StatisticContext } from '../context/StatisticState'
+import { Loader } from './Loader'
+import { TableStatistic } from './TableStatistic'
 
 export const TabStatistic: React.FC = () => {
-    const {type, fetchStats, loading} = useContext(StatisticContext)
+  const { type, fetchStats, loading } = useContext(StatisticContext)
 
-    useEffect(() => {
-        fetchStats()
-    }, [type])
+  useEffect(() => {
+    fetchStats()
+  }, [type])
 
-    return (
-        <div>
-            <MenuStatistic/>
-            {loading ? <Loader/> : <TableStatistic/>}
-        </div>
-    )
+  return (
+    <div>
+      <MenuStatistic />
+      {loading ? <Loader /> : <TableStatistic />}
+    </div>
+  )
 }
