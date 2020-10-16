@@ -209,7 +209,7 @@ export interface IGroupState {
   clearStream: () => void
   addGroup: (group: IGroupValues) => void
   editGroup: (group: IGroupValues) => void
-  removeGroup: (id: string) => void
+  removeGroup: () => void
   addStream: (stream: IStreamValues) => void
   findStream: (id: string) => void
   editStream: (stream: IStreamValues) => void
@@ -263,3 +263,4 @@ export type ActionGroup =
   | { type: 'REMOVE_FILTER'; filters: IFilterValues[] }
   | { type: 'SAVE_EDIT_GROUP' }
   | { type: 'REMOVE_STREAM'; streams: IStreamValues[] }
+  | { type: 'REMOVE_GROUP'; groups: IGroupValues[] }

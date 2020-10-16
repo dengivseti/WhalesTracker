@@ -29,7 +29,7 @@ export const groupReducer = (
     case 'FETCH_STREAMS':
       return { ...state, streams: action.streams }
     case 'CLEAR_STREAMS':
-      return { ...state, streams: [] }
+      return { ...state, streams: [], stream: null }
     case 'FIND_STREAM':
       return { ...state, stream: action.stream }
     case 'CLEAR_STREAM':
@@ -90,6 +90,8 @@ export const groupReducer = (
       }
     case 'REMOVE_STREAM':
       return { ...state, streams: action.streams }
+    case 'REMOVE_GROUP':
+      return { ...state, groups: action.groups }
     default:
       return state
   }

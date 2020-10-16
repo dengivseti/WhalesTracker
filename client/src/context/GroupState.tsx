@@ -100,6 +100,7 @@ export const GroupState: React.FC = ({ children }) => {
 
   const fetchGroup = async (id: string) => {
     loading()
+    clearStream()
     try {
       const data = await request(`/api/edit/group/${id}`)
       if (data) {
@@ -154,7 +155,16 @@ export const GroupState: React.FC = ({ children }) => {
     })
   }
 
-  const removeGroup = (id: string) => {}
+  const removeGroup = async () => {
+    clearFilters()
+    const id = state.group!._id as string
+    const groups = state.groups.filter((f) => f._id !== id)
+    await request(`/api/edit/group/${id}`, 'DELETE')
+    dispatch({
+      type: 'REMOVE_GROUP',
+      groups,
+    })
+  }
 
   const findStream = (id: string) => {
     clearFilters()

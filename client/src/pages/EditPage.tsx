@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect } from 'react'
 import { Loader } from '../components/Loader'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { Editor } from '../components/Editor'
 import { GroupContext } from '../context/GroupState'
 
@@ -9,9 +9,13 @@ interface RouteParams {
 }
 
 export const EditPage: React.FC = () => {
-  const { loading, fetchGroup, saveEditGroup } = useContext(
-    GroupContext,
-  )
+  const {
+    loading,
+    fetchGroup,
+    saveEditGroup,
+    removeGroup,
+  } = useContext(GroupContext)
+  const history = useHistory()
   const params = useParams<RouteParams>()
 
   const getGroupInfo = useCallback(async () => {
@@ -20,6 +24,11 @@ export const EditPage: React.FC = () => {
 
   const saveHandler = () => {
     saveEditGroup()
+  }
+
+  const deleteHandler = async () => {
+    await removeGroup()
+    history.push('/dashboard')
   }
 
   useEffect(() => {
@@ -31,7 +40,7 @@ export const EditPage: React.FC = () => {
   }
   return (
     <>
-      <Editor onSave={saveHandler} />
+      <Editor onSave={saveHandler} onDelete={deleteHandler} />
     </>
   )
 }

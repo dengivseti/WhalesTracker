@@ -95,6 +95,17 @@ router.delete('/group/:id/:idstream', auth, async (req, res) => {
   }
 })
 
+router.delete('/group/:id', auth, async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id)
+    await Stream.deleteMany({ _id: { $in: group.streams } })
+    await Group.deleteOne({ _id: req.params.id })
+    res.json({ status: 'OK' })
+  } catch (e) {
+    res.status(500).json({ message: 'Something went wrong' })
+  }
+})
+
 router.post('/group/:id', auth, editGroup, async (req, res) => {
   try {
     const { group, streams } = req.body

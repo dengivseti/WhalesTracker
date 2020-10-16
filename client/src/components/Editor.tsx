@@ -34,15 +34,24 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface ICreatePageProps {
   onSave: () => void
+  onDelete: () => void
 }
 
-export const Editor: React.FC<ICreatePageProps> = ({ onSave }) => {
+export const Editor: React.FC<ICreatePageProps> = ({
+  onSave,
+  onDelete,
+}) => {
   const classes = useStyles()
   const { group, stream, loading } = useContext(GroupContext)
 
   const saveHandler = (event: React.MouseEvent) => {
     event.preventDefault()
     onSave()
+  }
+
+  const deleteHandler = (event: React.MouseEvent) => {
+    event.preventDefault()
+    onDelete()
   }
 
   return (
@@ -63,6 +72,17 @@ export const Editor: React.FC<ICreatePageProps> = ({ onSave }) => {
               onClick={saveHandler}
             >
               Save
+            </Button>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="default"
+              disabled={loading}
+              className={classes.submit}
+              onClick={deleteHandler}
+            >
+              Delete
             </Button>
           </Paper>
         </Grid>
