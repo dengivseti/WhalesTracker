@@ -118,6 +118,7 @@ export const SelectFilter: React.FC = () => {
               name: 'typeFilter',
             }}
           >
+            <option value=''></option>
             {optionFilter()}
           </Select>
           <Grid item>

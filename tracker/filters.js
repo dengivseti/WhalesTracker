@@ -65,7 +65,14 @@ module.exports = class Filters {
 
   #isCity = (action) => action.includes(this.user.geo.city)
 
-  #isLanguageBrowser = (action) => action.includes(this.user.lang)
+  #isLanguageBrowser = (action) => {
+    for (let i = 0; i < action.length; i++) {
+      if (this.user.lang.includes(action[i])) {
+        return true
+      }
+    }
+    return false
+  }
 
   #uaIncludes = (action) => {
     for (let i = 0; i < action.length; i++) {

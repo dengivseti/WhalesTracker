@@ -77,5 +77,6 @@ export const useStyles = makeStyles((theme: Theme) =>
       }),
       marginLeft: 0,
     },
+    buttonLogout: {},
   }),
 )

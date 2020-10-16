@@ -27,9 +27,9 @@ app.use(
     secret: config.get('sessionSecret'),
     resave: false,
     saveUninitialized: false,
-    // cookie: {
-    //     maxAge: 360000
-    // },
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24,
+    },
     store,
   }),
 )
@@ -66,9 +66,11 @@ async function start() {
     global.listUrl = listUrl.filter((str) => str.trim())
     getSettings()
     app.listen(PORT, () =>
+      // eslint-disable-next-line no-console
       console.log(`Server started on port ${PORT}...`),
     )
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log('Server error', e.message)
     process.exit(1)
   }

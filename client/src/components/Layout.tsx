@@ -4,6 +4,7 @@ import {
   CssBaseline,
   Divider,
   Drawer,
+  Grid,
   IconButton,
   List,
   Toolbar,
@@ -21,12 +22,13 @@ import { useStyles } from '../styles'
 import { useTheme } from '@material-ui/core/styles'
 import { AuthContext } from '../context/AuthContext'
 import { GroupContext } from '../context/GroupState'
+import ExitToApp from '@material-ui/icons/ExitToApp'
 
 export const Layout: React.FC = (props) => {
   const classes = useStyles()
   const theme = useTheme()
   const { groups, fetchGroups } = useContext(GroupContext)
-  const { isAuthenticated } = useContext(AuthContext)
+  const { isAuthenticated, logout } = useContext(AuthContext)
   const [open, setOpen] = React.useState(false)
   // const [groups, setGroups] = useState<IGroupDrawer[]>([])
   // const {request} = useHttp()
@@ -72,9 +74,20 @@ export const Layout: React.FC = (props) => {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap>
-              Whale's Tracker
-            </Typography>
+            <Grid container>
+              <Typography variant="h6" noWrap>
+                Whale's Tracker
+              </Typography>
+            </Grid>
+            <Grid
+              container
+              justify="flex-end"
+              className={classes.buttonLogout}
+            >
+              <IconButton color="inherit" onClick={() => logout()}>
+                <ExitToApp />
+              </IconButton>
+            </Grid>
           </Toolbar>
         </AppBar>
         <Drawer

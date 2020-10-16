@@ -33,7 +33,7 @@ module.exports = (req) => {
     geo,
     useragent,
     device: checkDevice(useragent),
-    lang: lang[0],
+    lang,
     refer,
     params: req.params.id,
     query: req.query[global.getKey] || '',
