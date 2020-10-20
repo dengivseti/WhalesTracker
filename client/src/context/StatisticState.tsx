@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useReducer } from 'react'
+import { format } from 'date-fns'
 import { IStatisticState } from './types'
 import { statisticReducer } from './statisticReducer'
 import { useHttp } from '../hooks/http.hook'
@@ -15,8 +16,7 @@ function noop() {}
 const statState: IMenuStatsValues = {
   type: 'day',
   ignoreBot: false,
-  // startDate: new Date(current.getTime()),
-  startDate: new Date(new Date().setDate(new Date().getDate() - 15)),
+  startDate: new Date(),
   endDate: new Date(),
   interval: 'today',
   country: [],
@@ -77,8 +77,8 @@ export const StatisticState: React.FC = ({ children }) => {
         groups: state.groups.join('|'),
         streams: state.streams.join('|'),
         ignoreBot: state.ignoreBot ? '1' : '',
-        startDate: state.startDate.toISOString().substring(0, 10),
-        endDate: state.endDate.toISOString().substring(0, 10),
+        startDate: format(new Date(state.startDate), 'yyyy-MM-dd'),
+        endDate: format(new Date(state.endDate), 'yyyy-MM-dd'),
         country: state.country.join('|'),
       }
       const data = await request(

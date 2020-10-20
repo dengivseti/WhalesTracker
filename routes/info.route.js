@@ -10,7 +10,7 @@ const router = Router()
 const checkType = (type, item) => {
   switch (type) {
     case 'day':
-      return item.date.toISOString().substring(0, 10)
+      return DateFnsUtils.format(item.date, 'yyyy-MM-dd')
     case 'country':
       return item.country
     case 'query':
