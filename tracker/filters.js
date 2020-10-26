@@ -1,4 +1,5 @@
 const ipRange = require('ip_to_cidr')
+const { getArray } = require('../utils/arrayRedis.utils')
 
 module.exports = class Filters {
   constructor(user) {
@@ -106,22 +107,23 @@ module.exports = class Filters {
     return false
   }
 
-  #isBotSignature = (action) => {
+  #isBotSignature = async (action) => {
     if (!action) {
       return false
     }
-    for (let i = 0; i < global.blackSignatures.length; i++) {
-      if (
-        this.user.useragent.source.includes(global.blackSignatures[i])
-      ) {
+    const listSignature = await getArray('blackSignatures')
+    for (let i = 0; i < listSignature.length; i++) {
+      if (this.user.useragent.source.includes(listSignature[i])) {
         return true
       }
     }
     return false
   }
 
-  #isBlackIp = (action) =>
-    action ? !!ipRange(this.user.ip, global.blackIps) : false
+  #isBlackIp = async (action) => {
+    const blackIps = await getArray('blackIps')
+    return action ? !!ipRange(this.user.ip, blackIps) : false
+  }
 
   filtration(name, action) {
     switch (name) {

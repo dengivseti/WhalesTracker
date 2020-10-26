@@ -1,5 +1,6 @@
 const geoip = require('geoip-lite')
 const requestIp = require('request-ip')
+const { getSetting } = require('../utils/settings.utils')
 
 const checkDevice = (useragent) => {
   if (useragent.isMobile) {
@@ -14,11 +15,12 @@ const checkDevice = (useragent) => {
   return 'other'
 }
 
-module.exports = (req) => {
+module.exports = async (req) => {
   const { useragent } = req
   const lang = req.acceptsLanguages()
   const ip = requestIp.getClientIp(req)
   const isIpv6 = ip.includes(':')
+  const getKey = await getSetting('getKey')
   const refer = req.headers.referrer || req.headers.referer
   let geo = geoip.lookup(ip)
   if (!geo) {
@@ -36,6 +38,6 @@ module.exports = (req) => {
     lang,
     refer,
     params: req.params.id,
-    query: req.query[global.getKey] || '',
+    query: req.query[getKey] || '',
   }
 }

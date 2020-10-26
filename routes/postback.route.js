@@ -1,5 +1,6 @@
 const { Router } = require('express')
 const Statistic = require('../models/Statistic')
+const { getSetting } = require('../utils/settings.utils')
 
 const router = Router()
 
@@ -14,7 +15,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     if (
-      req.params.id === global.postbackKey &&
+      req.params.id === (await getSetting('postbackKey')) &&
       req.query.subid &&
       req.query.payout
     ) {

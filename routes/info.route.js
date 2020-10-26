@@ -4,6 +4,7 @@ const auth = require('../middleware/auth.middleware')
 const Group = require('../models/Group')
 const Offer = require('../models/Offer')
 const Statistic = require('../models/Statistic')
+const { getSetting } = require('../utils/settings.utils')
 
 const router = Router()
 
@@ -108,9 +109,9 @@ router.get('/stats/dashboard', auth, async (req, res) => {
     )
     const filterAmount = sortedList
       .filter((item) => item.amount > 0)
-      .slice(0, global.logLimitAmount)
+      .slice(0, await getSetting('logLimitAmount'))
     const lastClick = sortedList
-      .slice(0, global.logLimitClick)
+      .slice(0, await getSetting('logLimitClick'))
       .map((item) => {
         return {
           date: DateFnsUtils.format(

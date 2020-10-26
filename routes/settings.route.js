@@ -8,8 +8,15 @@ const Setting = require('../models/Setting')
 const Statistic = require('../models/Statistic')
 const clearIp = require('../utils/ip.utils')
 const writeFiles = require('../utils/writeFiles.utils')
+const { setSetting, getSetting } = require('../utils/settings.utils')
+const {
+  getCountArray,
+  getArray,
+  setArray,
+} = require('../utils/arrayRedis.utils')
 
 const router = Router()
+const arrays = ['blackIps', 'blackSignatures', 'listUrl']
 
 router.get('/info', auth, async (req, res) => {
   try {
@@ -20,11 +27,9 @@ router.get('/info', auth, async (req, res) => {
     })
     const data = {
       general: general || null,
-      intBlackIp: global.blackIps ? global.blackIps.length : 0,
-      intBlackSignature: global.blackSignatures
-        ? global.blackSignatures.length
-        : 0,
-      intRemoteUrl: global.listUrl ? global.listUrl.length : 0,
+      intBlackIp: await getCountArray('blackIps'),
+      intBlackSignature: await getCountArray('blackSignatures'),
+      intRemoteUrl: await getCountArray('listUrl'),
     }
     return res.json({
       ...data,
@@ -37,28 +42,11 @@ router.get('/info', auth, async (req, res) => {
 router.get('/info/list', auth, async (req, res) => {
   try {
     const typeList = req.query.type
-    if (typeList === 'blackIps') {
+    if (arrays.includes(typeList)) {
+      const list = await getArray(typeList)
       return res.json({
         type: typeList,
-        data: global.blackIps
-          ? global.blackIps.filter((str) => str.trim())
-          : [],
-      })
-    }
-    if (typeList === 'blackSignatures') {
-      return res.json({
-        type: typeList,
-        data: global.blackSignatures
-          ? global.blackSignatures.filter((str) => str.trim())
-          : [],
-      })
-    }
-    if (typeList === 'listUrl') {
-      return res.json({
-        type: typeList,
-        data: global.listUrl
-          ? global.listUrl.filter((str) => str.trim())
-          : [],
+        data: list ? list.filter((str) => str.trim()) : [],
       })
     }
     return res.status(500).json({ message: 'Something went wrong' })
@@ -74,6 +62,7 @@ router.post('/edit/general', auth, editSetting, async (req, res) => {
       return res.status(422).json({ message: errors.array()[0].msg })
     }
     Object.keys(req.body).forEach(async (key) => {
+      await setSetting(key, req.body[key])
       await Setting.where({ key }).updateOne({
         value: req.body[key],
       })
@@ -81,7 +70,8 @@ router.post('/edit/general', auth, editSetting, async (req, res) => {
     if (
       req.body &&
       req.body.clearDayStatistic &&
-      req.body.clearDayStatistic < global.clearDayStatistic
+      req.body.clearDayStatistic <
+        (await getSetting('clearDayStatistic'))
     ) {
       const date = DateFnsUtils.startOfDay(
         DateFnsUtils.subDays(new Date(), +req.body.clearDayStatistic),
@@ -97,30 +87,31 @@ router.post('/edit/general', auth, editSetting, async (req, res) => {
 router.post('/edit/list', auth, async (req, res) => {
   try {
     const { action, typeList, data } = req.body
-    let list
+    let newList
     let file
+    const lst = await getArray(typeList)
     switch (action) {
       case 'clear':
-        list = []
+        newList = []
         break
       case 'edit':
-        list = [...data]
+        newList = [...data]
         break
       case 'add':
-        list = [...global[typeList], ...data]
+        newList = [...lst, ...data]
         break
       case 'delete':
-        list = global[typeList].filter((el) => !data.includes(el))
+        newList = lst.filter((el) => !data.includes(el))
         break
       default:
-        list = global[typeList]
+        newList = lst
     }
-    if (list && list.length) {
+    if (newList && newList.length) {
       if (typeList === 'blackIps') {
-        list = await clearIp(list)
+        newList = await clearIp(newList)
       }
     }
-    global[typeList] = list
+    await setArray(typeList, newList)
     switch (typeList) {
       case 'blackIps':
         file = path.join(__dirname, '..', 'dist', 'ips.dat')
@@ -131,13 +122,11 @@ router.post('/edit/list', auth, async (req, res) => {
       default:
         file = path.join(__dirname, '..', 'dist', 'signature.dat')
     }
-    await writeFiles(file, list)
+    await writeFiles(file, newList)
     const result = {
-      intBlackIp: global.blackIps ? global.blackIps.length : 0,
-      intBlackSignature: global.blackSignatures
-        ? global.blackSignatures.length
-        : 0,
-      intRemoteUrl: global.listUrl ? global.listUrl.length : 0,
+      intBlackIp: await getCountArray('blackIps'),
+      intBlackSignature: await getCountArray('blackSignatures'),
+      intRemoteUrl: await getCountArray('listUrl'),
     }
     return res.json({ ...result })
   } catch (e) {

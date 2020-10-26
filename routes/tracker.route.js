@@ -7,14 +7,16 @@ const userInfo = require('../tracker/userInfo')
 const stream = require('../tracker/stream')
 const redirect = require('../tracker/redirect')
 const getUrl = require('../utils/url.utils')
+const { getSetting } = require('../utils/settings.utils')
 
 const router = Router()
 
-const redirectTrash = (res) => {
-  if (global.trash === 'notFound') {
-    return redirect('404', global.trashUrl, res)
+const redirectTrash = async (res) => {
+  if ((await getSetting('trash')) === 'notFound') {
+    const url = await getSetting('trashUrl')
+    return redirect('404', url, res)
   }
-  return res.redirect(global.trashUrl)
+  return res.redirect(await getSetting('trashUrl'))
 }
 
 router.get('/', async (req, res) => {
@@ -39,7 +41,7 @@ router.get('/:id', async (req, res) => {
     if (!group.isActive) {
       return redirectTrash(res)
     }
-    const user = userInfo(req)
+    const user = await userInfo(req)
     let unique = true
     if (group.checkUnic && group.timeUnic > 0) {
       const candidate = await Statistic.find({
@@ -87,7 +89,8 @@ router.get('/:id', async (req, res) => {
               useragent: user.useragent.source,
               expireAt: DateFnsUtils.addDays(
                 time,
-                global.clearDayStatistic,
+                // eslint-disable-next-line no-await-in-loop
+                await getSetting('clearDayStatistic'),
               ),
               subid,
             })
@@ -120,7 +123,7 @@ router.get('/:id', async (req, res) => {
         useragent: user.useragent.source,
         expireAt: DateFnsUtils.addDays(
           time,
-          global.clearDayStatistic,
+          await getSetting('clearDayStatistic'),
         ),
         subid,
       })

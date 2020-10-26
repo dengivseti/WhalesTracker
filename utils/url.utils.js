@@ -1,6 +1,8 @@
 const DateFnsUtils = require('date-fns')
 const Remote = require('../models/Remote')
 const Offer = require('../models/Offer')
+const { getArray } = require('./arrayRedis.utils')
+const { getSetting } = require('./settings.utils')
 
 const splitUrl = (data) => {
   let acc = 0
@@ -26,37 +28,39 @@ const rotatorUrl = (data, count) => {
 }
 
 const getUrlRemote = async (query) => {
+  let url
   const time = new Date()
+  const listUrl = await getArray('listUrl')
   if (!query) {
-    return global.listUrl[
-      Math.floor(Math.random() * global.listUrl.length)
-    ]
+    return listUrl[Math.floor(Math.random() * listUrl.length)]
   }
   const canditate = await Remote.findOne({ query })
   if (canditate) {
     return canditate.url
   }
-  if (global.listUrl.length > 0) {
-    const url =
-      global.listUrl[
-        Math.floor(Math.random() * global.listUrl.length)
-      ]
+  if (listUrl.length > 0) {
+    url = listUrl[Math.floor(Math.random() * listUrl.length)]
     const remote = new Remote({
       query,
       url,
-      expireAt: DateFnsUtils.addDays(time, global.clearRemote),
+      expireAt: DateFnsUtils.addDays(
+        time,
+        await getSetting('clearRemote'),
+      ),
     })
     remote.save()
     return url
   }
-  return global.trashUrl
+  url = await getSetting('trashUrl')
+  return url
 }
 
 const getUrlOffer = async (id, count) => {
   let url
   const findOffer = await Offer.findById(id)
   if (!findOffer) {
-    return global.trashUrl
+    url = await getSetting('trashUrl')
+    return url
   }
   const { offers, type } = findOffer
   if (offers.length === 1) {
@@ -73,7 +77,7 @@ const getUrlOffer = async (id, count) => {
       url = rotatorUrl(offers, count)
       break
     default:
-      url = global.trashUrl
+      url = await getSetting('trashUrl')
   }
   return url
 }
