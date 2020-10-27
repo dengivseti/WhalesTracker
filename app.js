@@ -4,41 +4,12 @@ const config = require('config')
 const useragent = require('express-useragent')
 const session = require('express-session')
 const MongoStore = require('connect-mongodb-session')(session)
+const cluster = require('cluster')
 const errorHandler = require('./middleware/error.middleware')
 const { getStartValueSettings } = require('./utils/settings.utils')
 
-const app = express()
-
-const store = new MongoStore({
-  collection: 'sessions',
-  uri: config.get('mongoUri'),
-})
-
-app.use(useragent.express())
-app.use('/postback', require('./routes/postback.route'))
-app.use('/', require('./routes/tracker.route'))
-
-app.use(express.json({ extended: true }))
-app.use(
-  session({
-    secret: config.get('sessionSecret'),
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24,
-    },
-    store,
-  }),
-)
-
-app.use('/api/edit', require('./routes/create.route'))
-app.use('/api/settings', require('./routes/settings.route'))
-app.use('/api/auth', require('./routes/auth.route'))
-app.use('/api/info', require('./routes/info.route'))
-
-app.use(errorHandler)
-
 const PORT = config.get('port') || 5000
+const app = express()
 
 async function start() {
   try {
@@ -59,4 +30,45 @@ async function start() {
   }
 }
 
-start()
+if (cluster.isMaster) {
+  const cpuCount = require('os').cpus().length
+  for (let i = 0; i < cpuCount; i += 1) {
+    cluster.schedulingPolicy = cluster.SCHED_NONE
+    cluster.fork()
+  }
+
+  cluster.on('exit', function (worker) {
+    // eslint-disable-next-line no-console
+    console.log(`Worker ${worker.id} died :(`)
+    cluster.fork()
+  })
+} else {
+  const store = new MongoStore({
+    collection: 'sessions',
+    uri: config.get('mongoUri'),
+  })
+
+  app.use(useragent.express())
+  app.use('/postback', require('./routes/postback.route'))
+  app.use('/', require('./routes/tracker.route'))
+
+  app.use(express.json({ extended: true }))
+  app.use(
+    session({
+      secret: config.get('sessionSecret'),
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24,
+      },
+      store,
+    }),
+  )
+
+  app.use('/api/edit', require('./routes/create.route'))
+  app.use('/api/settings', require('./routes/settings.route'))
+  app.use('/api/auth', require('./routes/auth.route'))
+  app.use('/api/info', require('./routes/info.route'))
+  app.use(errorHandler)
+  start()
+}
