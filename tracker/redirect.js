@@ -146,7 +146,7 @@ module.exports = async (typeRedirect, url, res) => {
       return res.status(200).send(js)
     case 'remote':
       if (url) {
-        return res.send(url)
+        return res.redirect(url)
       }
       return res.end()
     case 'offer':
