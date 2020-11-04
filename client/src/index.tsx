@@ -12,7 +12,7 @@ ReactDOM.render(
   <>
     <ThemeProvider theme={Themes}>
       <SnackbarProvider maxSnack={3} preventDuplicate={false}>
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
           <App />
         </BrowserRouter>
       </SnackbarProvider>

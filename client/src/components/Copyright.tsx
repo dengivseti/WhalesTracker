@@ -18,7 +18,7 @@ export const Copyright: React.FC = () => {
       align="center"
       className={classes.root}
     >
-      {"Copyright © Whale's TDS "}
+      {"Copyright © Whale's Tracker "}
       {new Date().getFullYear()}
       {'.'}
     </Typography>

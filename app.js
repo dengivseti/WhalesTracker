@@ -1,19 +1,19 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const config = require('config')
 const useragent = require('express-useragent')
 const session = require('express-session')
 const MongoStore = require('connect-mongodb-session')(session)
 const cluster = require('cluster')
+const helmet = require('helmet')
 const errorHandler = require('./middleware/error.middleware')
 const { getStartValueSettings } = require('./utils/settings.utils')
 
-const PORT = config.get('port') || 5000
+const PORT = process.env.port || 5000
 const app = express()
 
 async function start() {
   try {
-    await mongoose.connect(config.get('mongoUri'), {
+    await mongoose.connect(process.env.mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
@@ -45,9 +45,9 @@ if (cluster.isMaster) {
 } else {
   const store = new MongoStore({
     collection: 'sessions',
-    uri: config.get('mongoUri'),
+    uri: process.env.mongoUri,
   })
-
+  app.use(helmet())
   app.use(useragent.express())
   app.use('/postback', require('./routes/postback.route'))
   app.use('/', require('./routes/tracker.route'))
@@ -55,7 +55,7 @@ if (cluster.isMaster) {
   app.use(express.json({ extended: true }))
   app.use(
     session({
-      secret: config.get('sessionSecret'),
+      secret: process.env.sessionSecret,
       resave: false,
       saveUninitialized: false,
       cookie: {

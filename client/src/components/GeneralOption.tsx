@@ -9,8 +9,11 @@ import {
   Select,
   Button,
 } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
-import { createStyles, Theme } from '@material-ui/core/styles'
+import {
+  createStyles,
+  Theme,
+  makeStyles,
+} from '@material-ui/core/styles'
 import { listTrashOption } from '../utils/edit.utils'
 import { SettingsContext } from '../context/SettingsState'
 import { Loader } from './Loader'
