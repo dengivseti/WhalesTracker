@@ -6,6 +6,7 @@ import { StatisticPage } from './pages/StatisticPage'
 import { SettingsPage } from './pages/SettingsPage'
 import { EditPage } from './pages/EditPage'
 import { OfferPage } from './pages/OfferPage'
+import { InfoPage } from './pages/InfoPage'
 
 export const useRouter = (isAuthenticated: boolean) => {
   if (isAuthenticated) {
@@ -16,6 +17,7 @@ export const useRouter = (isAuthenticated: boolean) => {
         <Route path="/statistic" exact component={StatisticPage} />
         <Route path="/offers" exact component={OfferPage} />
         <Route path="/settings" exact component={SettingsPage} />
+        <Route path="/information" exact component={InfoPage} />
         <Redirect to="/dashboard" />
       </Switch>
     )

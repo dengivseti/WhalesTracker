@@ -30,8 +30,6 @@ export const Layout: React.FC = (props) => {
   const { groups, fetchGroups } = useContext(GroupContext)
   const { isAuthenticated, logout } = useContext(AuthContext)
   const [open, setOpen] = React.useState(false)
-  // const [groups, setGroups] = useState<IGroupDrawer[]>([])
-  // const {request} = useHttp()
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -76,7 +74,7 @@ export const Layout: React.FC = (props) => {
             </IconButton>
             <Grid container>
               <Typography variant="h6" noWrap>
-                Whale's Tracker
+                Whale's Tracker v0.1
               </Typography>
             </Grid>
             <Grid
