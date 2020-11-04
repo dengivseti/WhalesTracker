@@ -7,6 +7,7 @@ import Speed from '@material-ui/icons/Speed'
 import EqualizerIcon from '@material-ui/icons/Equalizer'
 import SettingsIcon from '@material-ui/icons/Settings'
 import LocalOfferIcon from '@material-ui/icons/LocalOffer'
+import Help from '@material-ui/icons/Help'
 
 export const mainListItems = (
   <div>
@@ -33,6 +34,12 @@ export const mainListItems = (
         <SettingsIcon />
       </ListItemIcon>
       <ListItemText primary="Settings" />
+    </ListItem>
+    <ListItem button component={Link} to="/information">
+      <ListItemIcon>
+        <Help />
+      </ListItemIcon>
+      <ListItemText primary="FAQ" />
     </ListItem>
   </div>
 )
