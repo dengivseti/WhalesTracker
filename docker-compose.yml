@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.3'
 
 services:
   frontend:
@@ -29,6 +29,7 @@ services:
     networks:
       - while-tracker-network
   mongo:
+    restart: unless-stopped
     image: mongo:latest
     container_name: mongo
     volumes:
@@ -36,6 +37,7 @@ services:
     networks:
       - while-tracker-network
   redis:
+    restart: unless-stopped
     image: redis:6-alpine
     container_name: redis
     volumes:
@@ -52,6 +54,7 @@ services:
     networks:
       - while-tracker-network
   nginx:
+    restart: unless-stopped
     image: nginx:stable-alpine
     container_name: while-tracker-nginx
     ports:
