@@ -28,6 +28,7 @@
     "express-useragent": "^1.0.13",
     "express-validator": "^6.4.0",
     "geoip-lite": "^1.4.1",
+    "helmet": "^4.2.0",
     "ioredis": "^4.19.0",
     "ip_to_cidr": "^2.0.3",
     "is-cidr": "^4.0.2",

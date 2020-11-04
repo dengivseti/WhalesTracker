@@ -1,0 +1,74 @@
+version: '3.7'
+
+services:
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.prod
+    container_name: while-tracker-frontend
+    command: serve -s build -l 3000
+    restart: unless-stopped
+    environment:
+      - PUBLIC_URL=/admin
+    networks:
+      - while-tracker-network
+  server:
+    build: ./
+    container_name: while-tracker-server
+    command: npm run start
+    restart: unless-stopped
+    environment:
+      - port=5000
+      - mongoUri=mongodb://mongo:27017/tracker
+      - redisUri=redis://redis:6379
+      - sessionSecret=secret MERN tracker session key 1993 2020
+      - NODE_ENV=production
+    depends_on:
+      - mongo
+      - redis
+    networks:
+      - while-tracker-network
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    volumes:
+      - mongodata:/data/db
+    networks:
+      - while-tracker-network
+  redis:
+    image: redis:6-alpine
+    container_name: redis
+    volumes:
+      - redisdata:/data
+    command:
+      - 'redis-server'
+      - '--save 900 1'
+      - '--save 300 10'
+      - '--save 60 10000'
+      - '--maxmemory 124mb'
+      - '--maxmemory-policy allkeys-lfu'
+    expose:
+      - "6379"
+    networks:
+      - while-tracker-network
+  nginx:
+    image: nginx:stable-alpine
+    container_name: while-tracker-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
+    depends_on:
+      - frontend
+      - server
+    networks:
+      - while-tracker-network
+
+
+volumes:
+  mongodata:
+  redisdata:
+
+networks:
+  while-tracker-network:
+    driver: bridge
