@@ -1,9 +1,7 @@
 const shortid = require('shortid')
-const Redis = require('ioredis')
+const redis = require('./redis')
 const Setting = require('../models/Setting')
 const { readArrays } = require('./arrayRedis.utils')
-
-const redis = new Redis()
 
 const objSetting = {
   postbackKey: shortid.generate().toLowerCase(),

@@ -1,9 +1,7 @@
-const Redis = require('ioredis')
 const path = require('path')
+const redis = require('./redis')
 const readFiles = require('./readFiles.utils')
 const clearIp = require('./ip.utils')
-
-const redis = new Redis()
 
 async function setArray(key, arr) {
   const multi = redis.multi()
