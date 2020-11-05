@@ -1,0 +1,42 @@
+version: '3.3'
+
+services:
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    command: npm run start
+    stdin_open: true
+    tty: true
+    environment:
+      - PUBLIC_URL=/admin
+      - DANGEROUSLY_DISABLE_HOST_CHECK=true
+    volumes:
+      - ./client/src:/src
+  server:
+    command: npm run server
+    environment:
+      - port=5000
+      - mongoUri=mongodb://mongo:27017/tracker
+      - redisUri=redis://redis:6379
+      - sessionSecret=secret MERN tracker session key 1993 2020
+      - NODE_ENV=development
+    volumes:
+      - ./:/server
+  redis:
+    image: redis:6-alpine
+    container_name: redis
+    volumes:
+      - redisdata:/data
+    command:
+      - 'redis-server'
+      - '--save 900 1'
+      - '--save 300 10'
+      - '--save 60 10000'
+      - '--maxmemory 124mb'
+      - '--maxmemory-policy allkeys-lfu'
+    ports:
+      - "6379:6379"
+  nginx:
+    volumes:
+      - ./nginx/nginx.conf.dev:/etc/nginx/conf.d/nginx.conf
