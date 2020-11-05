@@ -36,13 +36,15 @@ Many information on [DOCUMENTATION](https://whalestracker.netlify.app/)
 
 ## Technical information
 The project is written on ***MERN*** stack using the following libraries, technologies:
-- [React] (https://github.com/facebook/create-react-app)
-- [Node] (https://nodejs.org/en/)
-- [Mongo DB] (https://www.mongodb.com/)
-- [Docker] (https://www.docker.com/)
-- [Express] (https://expressjs.com/)
-- [Eslint] (https://eslint.org/)
-- [Material-UI] (https://material-ui.com/)
+- [React](https://github.com/facebook/create-react-app)
+- [Node](https://nodejs.org/en/)
+- [Mongo DB](https://www.mongodb.com/)
+- [Docker](https://www.docker.com/)
+- [Express](https://expressjs.com/)
+- [Eslint](https://eslint.org/)
+- [Material-UI](https://material-ui.com/)
+- [Redis](https://redis.io/)
+- [Nginx](https://nginx.org/)
 
 ## License
- MIT © [moneyvseti] (https://github.com/dengivseti)
+ MIT © [dengivseti](https://github.com/dengivseti)
