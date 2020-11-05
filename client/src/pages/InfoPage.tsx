@@ -7,29 +7,29 @@ export const InfoPage = () => {
       <br />
       <Typography variant="body1">
         Документация и вся информация по настройке.{' '}
-        <a href="https://whiletracker.netlify.app/" target="_blank">
-          https://whiletracker.netlify.app/
+        <a href="https://whalestracker.netlify.app/" target="_blank">
+          https://whalestracker.netlify.app/
         </a>
       </Typography>
       <br />
       <Typography variant="body1">
         Github проекта{' '}
         <a
-          href="https://github.com/dengivseti/while_tracker"
+          href="https://github.com/dengivseti/WhalesTracker"
           target="_blank"
         >
-          https://github.com/dengivseti/while_tracker
+          https://github.com/dengivseti/WhalesTracker
         </a>
       </Typography>
       <br />
       <Typography variant="body1">
         Не забудьте подписаться на группу в{' '}
-        <a href="https://t.me/WhileTracker" target="_blank">
+        <a href="https://t.me/WhalesTracker" target="_blank">
           Телеграм.
         </a>{' '}
         Поставить звезду ⭐ на{' '}
         <a
-          href="https://github.com/dengivseti/while_tracker"
+          href="https://github.com/dengivseti/WhalesTracker"
           target="_blank"
         >
           Github
@@ -40,7 +40,7 @@ export const InfoPage = () => {
       <Typography variant="body1">
         Все вопросы и предложения принимаются через{' '}
         <a
-          href="https://github.com/dengivseti/while_tracker/issues"
+          href="https://github.com/dengivseti/WhalesTracker/issues"
           target="_blank"
         >
           Issues
