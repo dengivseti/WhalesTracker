@@ -35,7 +35,7 @@ Many information on [DOCUMENTATION](https://whalestracker.netlify.app/)
 - Show text, js, json, html, 400, 403, 404, 500 errors
 
 ## Technical information
-The project is written on *** MERN *** stack using the following libraries, technologies:
+The project is written on ***MERN*** stack using the following libraries, technologies:
 - [React] (https://github.com/facebook/create-react-app)
 - [Node] (https://nodejs.org/en/)
 - [Mongo DB] (https://www.mongodb.com/)
