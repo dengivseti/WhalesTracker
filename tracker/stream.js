@@ -13,7 +13,8 @@ module.exports = async (user, stream) => {
   for (let i = 0; i < filters.length; i++) {
     const { name } = filters[i]
     const { action } = filters[i]
-    const result = filter.filtration(name, action)
+    // eslint-disable-next-line no-await-in-loop
+    const result = await filter.filtration(name, action)
     if (!relation && result) {
       return true
     }
