@@ -125,7 +125,7 @@ module.exports = class Filters {
     return action ? !!ipRange(this.user.ip, blackIps) : false
   }
 
-  filtration(name, action) {
+  async filtration(name, action) {
     switch (name) {
       case 'device':
         return this.#isDevice(action)
@@ -154,9 +154,9 @@ module.exports = class Filters {
       case 'maskIpv6':
         return this.#isMaskIpv6(action)
       case 'useListBlackIps':
-        return this.#isBlackIp(action)
+        return await this.#isBlackIp(action)
       case 'useListBotSignatures':
-        return this.#isBotSignature(action)
+        return await this.#isBotSignature(action)
       default:
         return false
     }
