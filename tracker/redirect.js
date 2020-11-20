@@ -1,22 +1,29 @@
+const { createHtml, createText } = require('../utils/generateText')
+
 module.exports = async (typeRedirect, url, res) => {
   let html
   let iframe
   let js
   let meta
+  let genHTML
+  let genTitle
   switch (typeRedirect) {
     case 'httpRedirect':
       return res.redirect(url)
     case 'jsRedirect':
       res.set('Content-Type', 'text/html')
+      genTitle = createText(2, 5)
+      genHTML = createHtml()
       html = `
             <!DOCTYPE html>
             <head>
-                <title> </title>
+                <title>${genTitle}</title>
                 <meta http-equiv="refresh" content="1; URL=${url}">
+                <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
                 <script type="text/javascript">window.location = "${url}";</script>
             </head>
             <body>
-                The Document has moved <a href="${url}">here</a>
+                ${genHTML}
             </body>
             </html>
             `
@@ -91,40 +98,52 @@ module.exports = async (typeRedirect, url, res) => {
             `
       return res.status(200).send(iframe)
     case 'javascript':
+      genTitle = createText(2, 5)
+      genHTML = createHtml()
       res.set('Content-Type', 'text/html')
       js = `
             <!DOCTYPE html>
             <head>
-            <title> </title>
+            <title>${genTitle}</title>
+            <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
             </head>
             <body>
             <script type="text/javascript">${url}</script>
+            ${genHTML}
             </body>
             </html>
             `
       return res.status(200).send(js)
     case 'metaRefresh':
+      genTitle = createText(2, 5)
+      genHTML = createHtml()
       res.set('Content-Type', 'text/html')
       meta = `
-                <!DOCTYPE html>
-                <head>
-                <title> </title>
-                <meta http-equiv="refresh" content="0; URL=${url}">
-                </head>
-                <body>
-                </body>
-                </html>
+            <!DOCTYPE html>
+            <head>
+            <title>${genTitle}</title>
+            <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
+            <meta http-equiv="refresh" content="0; URL=${url}">
+            </head>
+            <body>
+            ${genHTML}
+            </body>
+            </html>
             `
       return res.status(200).send(meta)
     case 'iframeRedirect':
+      genTitle = createText(2, 5)
+      genHTML = createHtml()
       res.set('Content-Type', 'text/html')
       iframe = `
                 <!DOCTYPE html>
                 <head>
-                <title> </title>
+                <title>${genTitle}</title>
+                <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
                 <meta http-equiv="content-type" content="text/html; charset=utf-8">
                 </head>
                 <body>
+                ${genHTML}
                 <iframe src="javascript:parent.location=\\'${url}\\'" style="visibility:hidden"></iframe>
                 <script>
                 function go() {location.replace("${url}")}
@@ -156,16 +175,7 @@ module.exports = async (typeRedirect, url, res) => {
       return res.end()
     case 'showHtml':
       res.set('Content-Type', 'text/html')
-      html = `
-            <!DOCTYPE html>
-            <head>
-            <title> </title>
-            <meta name="robots" content="noindex,nofollow">
-            <meta http-equiv="content-type" content="text/html; charset=utf-8">
-            </head>
-            <body>${url}</body>
-            </html>
-            `
+      html = `${url}`
       return res.status(200).send(html)
     case 'showText':
       res.set('Content-Type', 'text/plain')
