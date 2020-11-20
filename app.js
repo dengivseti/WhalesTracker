@@ -47,7 +47,14 @@ if (cluster.isMaster) {
     collection: 'sessions',
     uri: process.env.mongoUri,
   })
-  app.use(helmet())
+  app.use(helmet.dnsPrefetchControl())
+  app.use(helmet.expectCt())
+  // app.use(helmet.frameguard())
+  app.use(helmet.hidePoweredBy())
+  app.use(helmet.ieNoOpen())
+  app.use(helmet.noSniff())
+  app.use(helmet.referrerPolicy())
+  app.use(helmet.xssFilter())
   app.use(useragent.express())
   app.use('/postback', require('./routes/postback.route'))
   app.use('/', require('./routes/tracker.route'))
