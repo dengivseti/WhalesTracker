@@ -124,7 +124,7 @@ router.get('/stats/dashboard', auth, async (req, res) => {
           country: item.country,
           city: item.city,
           ip: item.ip,
-          useragent: item.useragent.substr(0, 68),
+          useragent: item.useragent.substr(0, 500),
           unique: item.unique,
           isBot: item.isBot,
           out: item.out.substr(0, 50),
@@ -172,7 +172,8 @@ router.get('/stats/dashboard', auth, async (req, res) => {
         value = DateFnsUtils.getHours(item.date)
         last = !DateFnsUtils.isToday(item.date)
       } else {
-        value = DateFnsUtils.getDay(item.date)
+        const day = DateFnsUtils.getDay(item.date) - 1
+        value = day === -1 ? 6 : day
         last = !DateFnsUtils.isThisWeek(item.date, {
           weekStartsOn: 1,
         })
