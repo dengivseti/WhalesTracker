@@ -5,7 +5,9 @@ const clearIp = require('./ip.utils')
 
 async function setArray(key, arr) {
   const multi = redis.multi()
-  multi.del(key)
+  if (arr.length > 0) {
+    multi.del(key)
+  }
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < arr.length; i++) {
     multi.rpush(key, arr[i])
