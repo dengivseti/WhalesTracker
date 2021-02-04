@@ -74,7 +74,7 @@ export const Layout: React.FC = (props) => {
             </IconButton>
             <Grid container>
               <Typography variant="h6" noWrap>
-                Whale's Tracker v0.1
+                Whale's Tracker v0.2
               </Typography>
             </Grid>
             <Grid
