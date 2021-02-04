@@ -140,7 +140,7 @@ router.get('/stats/dashboard', auth, async (req, res) => {
         city: item.city,
         ip: item.ip,
         amount: item.amount,
-        useragent: item.useragent.substr(0, 68),
+        useragent: item.useragent.substr(0, 500),
       }
     })
     interval.forEach((i) => {
