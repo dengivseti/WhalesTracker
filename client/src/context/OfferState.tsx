@@ -86,7 +86,7 @@ export const OfferState: React.FC = ({ children }) => {
     startLoading()
     try {
       const response = await request(
-        `api/edit/offers/${id}`,
+        `/api/edit/offers/${id}`,
         'DELETE',
       )
       if (response) {

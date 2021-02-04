@@ -31,8 +31,12 @@ export const FieldCode: React.FC<IFieldProps> = (props) => {
   }, [type])
 
   useEffect(() => {
-    if (offers.length > 0 && type === 'select') {
-      onChange(offers[0]._id!)
+    if (type === 'select' && offers.length > 0) {
+      if (offers.length === 1) {
+        onChange(offers[0]._id!)
+      } else {
+        onChange(value)
+      }
     }
   }, [offers])
 
