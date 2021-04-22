@@ -174,8 +174,12 @@ module.exports = async (typeRedirect, url, res) => {
       }
       return res.end()
     case 'showHtml':
+      genTitle = createText(2, 5)
+      genHTML = createHtml()
       res.set('Content-Type', 'text/html')
       html = `${url}`
+      html = html.replace('[TITLE]', genTitle)
+      html = html.replace('[HTML]', genHTML)
       return res.status(200).send(html)
     case 'showText':
       res.set('Content-Type', 'text/plain')
