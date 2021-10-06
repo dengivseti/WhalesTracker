@@ -90,7 +90,6 @@ module.exports = async (
   count = 0,
 ) => {
   let url = value
-  url = url.replace('[subid]', subid)
   switch (typeRedirect) {
     case 'remote':
       url = await getUrlRemote(query)
@@ -101,5 +100,6 @@ module.exports = async (
     default:
       break
   }
+  url = url.replace('[subid]', subid)
   return url
 }

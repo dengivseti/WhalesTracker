@@ -74,6 +74,7 @@ export const FieldCode: React.FC<IFieldProps> = (props) => {
         </Typography>
       )
     }
+    
     return (
       <FormControl fullWidth>
         <InputLabel htmlFor="code">{description}</InputLabel>
@@ -88,6 +89,7 @@ export const FieldCode: React.FC<IFieldProps> = (props) => {
             name: 'code',
           }}
         >
+          <option value=''></option>
           {offers.map((offer) => (
             <option key={offer._id} value={offer._id}>
               {offer.name}
