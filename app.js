@@ -47,6 +47,7 @@ if (cluster.isMaster) {
     collection: 'sessions',
     uri: process.env.mongoUri,
   })
+  app.use(express.static('public'))
   app.use(helmet.dnsPrefetchControl())
   app.use(helmet.expectCt())
   // app.use(helmet.frameguard())

@@ -10,3 +10,4 @@ client/node_modules
 .idea
 data
 test
+public/
