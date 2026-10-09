@@ -34,7 +34,7 @@
 
 **device (фильтр Device)** — фильтр потока (массив устройств): клик проходит, если сработал хотя бы один флаг useragent. Допустимые значения: mobile, desktop, tablet, ipad, ipod, android, blackberry, mac, samsung, raspberry, androidTablet, kindleFire, SmartTV. Источник: tracker/filters.js:130, 11-42; сайт: [Настройка фильтрации](https://whalestracker.netlify.app/settings/filters).
 
-**Evely (равномерная ротация)** — тип ротации оффера: равновероятный выбор ссылки из списка (без учёта весов). Опечатка «evely» (вместо evenly) присутствует и на сайте, и в коде — каноническое значение `type: 'evely'`. Источник: utils/url.utils.js:17-20, models/Offer.js:7; сайт: [Офферы](https://whalestracker.netlify.app/started/offers).
+**Evely (равномерная ротация)** — тип ротации оффера: равновероятный выбор ссылки из списка (без учёта весов). Опечатка «evely» (вместо evenly) присутствует и на сайте, и в коде — каноническое значение `type: 'evely'`. Источник: utils/url.utils.js:17-24 (evelyUrl — равновероятный выбор, :22), client/src/utils/edit.utils.ts:50 (значение в UI); сайт: [Офферы](https://whalestracker.netlify.app/started/offers).
 
 **Group (Группа)** — корневая сущность маршрутизации: `label` (название), `name` (слаг — идентификатор группы в URL, required, unique; на сайте называется Identifier / «Индификатор группы»), `typeRedirect` + `code` (редирект по умолчанию / фолбэк), `checkUnic` (false), `timeUnic` (24 ч), `useLog` (true), `isActive` (true), `streams` (список потоков). Источник: models/Group.js:4-47; сайт: [Настройка группы](https://whalestracker.netlify.app/settings/groups); поля — [docs/03-domain-tracker.md §1.1 «Group»](03-domain-tracker.md#11-group-modelsgroupjs4-15).
 

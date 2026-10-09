@@ -65,7 +65,7 @@ createMuiTheme({
 
 - **Загрузка** — везде `<Loader />`: CircularProgress по центру, marginTop 50px — client/src/components/Loader.tsx:4-16. Используется в App (App.tsx:18-20), на страницах Statistic/Offer/Settings/Edit, вместо графика на Dashboard, внутри модалок и FieldCode (полный список — §9.4 отчёта; см. [04-screens.md](04-screens.md)). На кнопках — `disabled` во время загрузки (AuthPage.tsx:101, Editor.tsx:70/81, MenuDashboard.tsx:236, MenuStatistic.tsx:293).
 - **Тосты** — notistack `SnackbarProvider maxSnack={3} preventDuplicate={false}` (index.tsx:14); вызов `useMessage()` → `enqueueSnackbar(msg)`, вариант default — client/src/hooks/message.hook.ts:3-7.
-- **Ошибки** — снекбар с текстом от сервера (`data.message`); фолбэк-текст **`Something went wrong`** — http.hook.ts:38. Глобального error-boundary/страницы ошибки нет. Дословные тексты всех снекбаров — §8.4 ниже и разделы страниц.
+- **Ошибки** — снекбар с текстом от сервера (`data.message`); фолбэк-текст **`Something went wrong`** — http.hook.ts:38. Глобального error-boundary/страницы ошибки нет. Дословные тексты всех снекбаров — §9 ниже и разделы страниц.
 
 ### 0.5 Правило форм и валидации
 
