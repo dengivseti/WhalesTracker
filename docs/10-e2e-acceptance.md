@@ -198,7 +198,6 @@ X-Content-Type-Options: nosniff
 Referrer-Policy: no-referrer
 X-XSS-Protection: 1; mode=block
 Location: http://partner.example.com/landing?cid=kjgh3456fh
-Vary: Accept
 Content-Type: text/plain; charset=utf-8
 Content-Length: 71
 Connection: keep-alive
@@ -256,7 +255,7 @@ X-Content-Type-Options: nosniff
 Referrer-Policy: no-referrer
 X-XSS-Protection: 1; mode=block
 Content-Type: application/json; charset=utf-8
-Content-Length: 16
+Content-Length: 15
 ETag: W/"<hash>"
 Connection: keep-alive
 
@@ -294,7 +293,7 @@ Connection: keep-alive
   {"value":14,"hits":1,"uniques":1,"sales":1,"amount":12.5,"hits_last":0,"uniques_last":0,"sales_last":0,"amount_last":0},
   "… элементы для часов 15–23 с нулевыми счётчиками (та же структура) …"
 ],"last_click":[
-  {"date":"09/10/2026, 02:14:35","group":"TestGroup","stream":"MobileStream","device":"mobile","country":"RU","city":"Moscow","ip":"203.0.113.5","useragent":"Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) …","unique":true,"isBot":false,"out":"http://partner.example.com/landing?cid=kjgh3456f"}
+  {"date":"09/10/2026, 02:14:35","group":"TestGroup","stream":"MobileStream","device":"mobile","country":"RU","city":"Moscow","ip":"203.0.113.5","useragent":"Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) …","unique":true,"isBot":false,"out":"http://partner.example.com/landing?cid=kjgh3456fh"}
 ],"last_amount":[
   {"date":"09/10/2026, 02:14:35","group":"TestGroup","stream":"MobileStream","device":"mobile","country":"RU","city":"Moscow","ip":"203.0.113.5","amount":12.5,"useragent":"Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) …"}
 ]}
@@ -396,7 +395,6 @@ curl -i -s 'http://localhost:5000/nosuchgroup?q=x'
 ```http
 HTTP/1.1 302 Found
 Location: http://example.com
-Vary: Accept
 Content-Type: text/plain; charset=utf-8
 
 Found. Redirecting to http://example.com
@@ -456,7 +454,6 @@ Content-Type: application/json; charset=utf-8
 ```http
 HTTP/1.1 302 Found
 Location: http://example.com/group-fallback
-Vary: Accept
 Content-Type: text/plain; charset=utf-8
 
 Found. Redirecting to http://example.com/group-fallback
