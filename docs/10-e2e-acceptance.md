@@ -238,7 +238,7 @@ Connection: keep-alive
 
 ### Шаг 8. Постбек от партнёрки
 
-`GET /postback/{postbackKey}?subid={subid}&payout={payout}` (routes/postback.route.js:15). Сравнение ключа обычным `===`; обязательны оба query; действие — `Statistic.where({subid}).updateOne({ amount: +payout })`, т.е. обновляются **все** записи с этим subid (routes/postback.route.js:18-24; известная проблема №8, §5).
+`GET /postback/{postbackKey}?subid={subid}&payout={payout}` (routes/postback.route.js:15). Сравнение ключа обычным `===`; обязательны оба query; действие — `Statistic.where({subid}).updateOne({ amount: +payout })`, т.е. обновляется **первый совпавший** документ с этим subid (`updateOne` без multi обновляет один документ; routes/postback.route.js:18-24; известная проблема №8, §5; см. также [03-domain-tracker.md §9, п. 9](03-domain-tracker.md)).
 
 ```bash
 curl -i -s 'http://localhost:5000/postback/abc123def?subid=kjgh3456fh&payout=12.5'
@@ -508,7 +508,7 @@ Found. Redirecting to http://example.com/group-fallback
 | 1 | Первый пользователь = владелец (авторегистрация при пустой users) | Шаг 1 §2 **использует** это поведение осознанно (иного способа создать пользователя нет); в повторении допустимо заменить явной регистрацией при сохранении контрактных статусов | routes/auth.route.js:22-29; docs/02-api.md §7.1 |
 | 4 | 500 вместо 4xx при невалидных query; отсутствие `return` после `res.status(500)` в info.route.js | Пункты чек-листа 20, 22: повторение должно отдать корректный 4xx/единичный ответ, а не 500 и не двойной ответ | routes/info.route.js:53-55, 217-223; docs/02-api.md §7.4 |
 | 5 | `POST /api/settings/statistics/clear` — мёртвый эндпоинт (TODO, зависание) | Не вызывать в сценариях; в повторении эндпоинт должен отвечать | routes/settings.route.js:137-143; docs/02-api.md §7.5 |
-| 8 | Postback: `===` вместо timing-safe, нет NaN-проверки payout, обновление всех записей с subid, 500 при отсутствующих query | Шаг 8 §2 воспроизводит контракт успеха `{"status":"ok"}`; «грязные» аспекты — не воспроизводить | routes/postback.route.js:15-28; docs/02-api.md §7.8 |
+| 8 | Postback: `===` вместо timing-safe, нет NaN-проверки payout, обновление только первого совпавшего документа с subid, 500 при отсутствующих query | Шаг 8 §2 воспроизводит контракт успеха `{"status":"ok"}`; «грязные» аспекты — не воспроизводить | routes/postback.route.js:15-28; docs/02-api.md §7.8 |
 | 9 | Уникальность клика по IP глобально, без привязки к группе | Главный путь обходит (`checkUnic:false`); тестировать глобальную уникальность не нужно | routes/tracker.route.js:46-55; docs/02-api.md §7.9 |
 | 11 | `isLength({min:1,max:720})` на числовом `timeUnic` | Проверку границы 720 ч при приёмке не закладывать | utils/validators.utils.js:100-105, 128-134; docs/02-api.md §7.11 |
 
@@ -516,7 +516,7 @@ Found. Redirecting to http://example.com/group-fallback
 
 ## 6. Что проверять по другим документам
 
-- Таблица всех 26 эндпоинтов, валидаторы, статусы ошибок — [02-api.md](02-api.md).
+- Сводная таблица всех эндпоинтов, валидаторы, статусы ошибок — [02-api.md](02-api.md).
 - Модели, семантика фильтров, полный список типов редиректов, TTL-индексы — [03-domain-tracker.md](03-domain-tracker.md).
 - Экранная обвязка этих же сценариев (логин, группы, потоки, статистика, настройки) — [08-ui-spec.md](08-ui-spec.md).
 - Внешний вид/деплой — [04-screens.md](04-screens.md), [09-deployment.md](09-deployment.md).
